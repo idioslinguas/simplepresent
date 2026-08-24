@@ -1,0 +1,2437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quest-Buddy: Simple Present & Shadowing Studio</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome for friendly UI icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght=300..700&family=Quicksand:wght@400..700&display=swap');
+    body {
+      font-family: 'Quicksand', sans-serif;
+    }
+    .fun-title {
+      font-family: 'Fredoka', sans-serif;
+    }
+    /* Waveform Animation */
+    .bar {
+      animation: pulse 1.2s ease-in-out infinite;
+    }
+    .bar:nth-child(2) { animation-delay: 0.1s; }
+    .bar:nth-child(3) { animation-delay: 0.2s; }
+    .bar:nth-child(4) { animation-delay: 0.3s; }
+    .bar:nth-child(5) { animation-delay: 0.4s; }
+    @keyframes pulse {
+      0%, 100% { height: 4px; }
+      50% { height: 32px; }
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-indigo-50 via-teal-50 to-orange-50 min-h-screen pb-12 text-slate-800">
+ <!-- Header / Nav -->
+  <header class="bg-white/95 backdrop-blur-md border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      
+      <!-- Logo Vectorial Oficial de Idíoslinguas -->
+      <a href="#" class="flex items-center space-x-3 group cursor-pointer">
+        <div class="relative w-11 h-11 sm:w-12 sm:h-12 flex-shrink-0 flex items-center justify-center transition-transform duration-300 group-hover:scale-105">
+          <svg viewBox="0 0 200 200" class="w-full h-full drop-shadow-sm">
+            <path d="M 30,115 C 15,55 80,15 150,28 C 182,34 192,62 170,82 C 138,112 45,152 30,115 Z" fill="none" stroke="#e63946" stroke-width="8" stroke-linecap="round"/>
+            <path d="M 162,38 C 188,68 182,132 142,168 C 100,202 38,172 48,130" fill="none" stroke="#ffb703" stroke-width="7" stroke-linecap="round"/>
+            <path d="M 38,138 C 58,182 122,188 162,152" fill="none" stroke="#2a9d8f" stroke-width="7" stroke-linecap="round"/>
+            <circle cx="100" cy="95" r="50" fill="none" stroke="#0077b6" stroke-width="5"/>
+            <ellipse cx="100" cy="95" rx="24" ry="50" fill="none" stroke="#0077b6" stroke-width="3"/>
+            <line x1="50" y1="95" x2="150" y2="95" stroke="#0077b6" stroke-width="3"/>
+            <line x1="60" y1="70" x2="140" y2="70" stroke="#0077b6" stroke-width="2"/>
+            <line x1="60" y1="120" x2="140" y2="120" stroke="#0077b6" stroke-width="2"/>
+            <rect x="110" y="58" width="22" height="14" rx="2" fill="#b71c1c"/>
+            <path d="M 110,58 H 121 V 65 H 110 Z" fill="#0d47a1"/>
+            <line x1="110" y1="62" x2="132" y2="62" stroke="#ffffff" stroke-width="1.5"/>
+            <line x1="110" y1="66" x2="132" y2="66" stroke="#ffffff" stroke-width="1.5"/>
+            <line x1="110" y1="70" x2="132" y2="70" stroke="#ffffff" stroke-width="1.5"/>
+            <path d="M 70,68 A 22,22 0 1 1 95,103 L 85,113 L 88,100 A 22,22 0 0 1 70,68 Z" fill="#0077b6"/>
+            <text x="82" y="91" font-family="'Fredoka', sans-serif" font-weight="bold" font-size="22" fill="#ffffff" text-anchor="middle">i</text>
+            <path d="M 125,88 A 20,20 0 1 1 145,120 L 142,128 L 134,119 A 20,20 0 0 1 125,88 Z" fill="#2a9d8f"/>
+            <text x="127" y="110" font-family="'Fredoka', sans-serif" font-weight="bold" font-size="18" fill="#ffffff" text-anchor="middle">l</text>
+          </svg>
+        </div>
+        <div class="flex flex-col">
+          <div class="flex items-center text-xl sm:text-2xl font-extrabold tracking-tight text-[#16467d] leading-none font-fun">
+            <span>idíos</span><span class="text-[#1e5899] relative">linguas<span class="absolute -top-1.5 right-12 text-emerald-500 text-xs">🍃</span></span>
+          </div>
+          <span class="text-[9px] font-extrabold text-[#16467d] tracking-[0.2em] uppercase mt-0.5">
+            ACADEMIA DE IDIOMAS
+          </span>
+        </div>
+      </a>
+
+
+      <nav class="flex items-center space-x-1 bg-slate-100/80 p-1 rounded-xl">
+        <button onclick="switchTab('practice')" id="tab-practice" class="tab-btn px-4 py-2 rounded-lg text-sm font-bold transition-all duration-300 flex items-center gap-2 bg-white text-teal-700 shadow-sm">
+          <i class="fa-solid fa-rotate-left text-teal-500"></i> Reverse Qs
+        </button>
+        <button onclick="switchTab('shadow')" id="tab-shadow" class="tab-btn px-4 py-2 rounded-lg text-sm font-bold transition-all duration-300 flex items-center gap-2 text-slate-600 hover:text-slate-900">
+          <i class="fa-solid fa-microphone text-indigo-500"></i> Shadowing Lab
+        </button>
+        <button onclick="switchTab('guide')" id="tab-guide" class="tab-btn px-4 py-2 rounded-lg text-sm font-bold transition-all duration-300 flex items-center gap-2 text-slate-600 hover:text-slate-900">
+          <i class="fa-solid fa-book-open text-orange-500"></i> Cheat Sheet
+        </button>
+        <!-- Top Nav Gemini API Key Action Trigger -->
+        <button onclick="toggleKeyModal()" class="px-3 py-2 rounded-lg text-sm font-bold transition-all duration-300 flex items-center gap-2 text-slate-600 hover:text-slate-900 bg-slate-200/50 hover:bg-slate-200" title="Configurar Clave Gemini">
+          <i class="fa-solid fa-key text-amber-500"></i> <span class="hidden md:inline">Gemini Key</span>
+        </button>
+      </nav>
+
+      <!-- Scoreboard -->
+      <div class="flex items-center space-x-4 bg-teal-50 border border-teal-100 px-4 py-1.5 rounded-xl">
+        <div class="flex items-center space-x-1 text-teal-700 font-bold text-sm">
+          <i class="fa-solid fa-star text-amber-400"></i>
+          <span id="global-score">0</span>
+        </div>
+        <div class="w-px h-5 bg-teal-200"></div>
+        <div class="flex items-center space-x-1 text-orange-600 font-bold text-sm">
+          <i class="fa-solid fa-fire text-orange-500"></i>
+          <span id="global-streak">0</span> días
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="max-w-4xl mx-auto px-4 mt-6">
+
+    <!-- Gemini Voice Settings Accordion -->
+    <div class="bg-white border border-slate-100 rounded-3xl p-4 mb-6 shadow-sm">
+      <button onclick="toggleAudioSettings()" class="w-full flex items-center justify-between text-left focus:outline-none">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 bg-teal-100 rounded-xl flex items-center justify-center text-teal-600">
+            <i class="fa-solid fa-sliders"></i>
+          </div>
+          <div>
+            <h3 class="font-bold text-slate-700 text-sm md:text-base">Ajustes Adicionales de Voz</h3>
+            <p class="text-xs text-slate-400">Personaliza la velocidad del habla y los ajustes del motor</p>
+          </div>
+        </div>
+        <i id="settings-chevron" class="fa-solid fa-chevron-down text-slate-400 transition-transform"></i>
+      </button>
+      
+      <div id="audio-settings-content" class="hidden mt-4 pt-4 border-t border-slate-100 grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div>
+          <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Acento de Voz (Nube)</label>
+          <select id="tts-voice-select" class="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-teal-400 bg-slate-50">
+            <option value="native">Voces Locales del Navegador (Offline)</option>
+            <option value="Kore">Kore (Clara y Suave - EE.UU.)</option>
+            <option value="Zephyr">Zephyr (Brillante - EE.UU.)</option>
+            <option value="Puck">Puck (Alegre - EE.UU.)</option>
+            <option value="Aoede">Aoede (Cálida - Estilo Reino Unido)</option>
+            <option value="Charon">Charon (Profunda - EE.UU.)</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Velocidad del Audio</label>
+          <div class="flex bg-slate-100 p-1 rounded-xl">
+            <button onclick="setSpeechRate(0.75)" id="rate-slow" class="flex-1 py-1 text-xs font-bold rounded-lg transition-all text-slate-600 bg-white shadow-sm text-teal-700">
+              🐌 Lento (A1)
+            </button>
+            <button onclick="setSpeechRate(1.0)" id="rate-normal" class="flex-1 py-1 text-xs font-bold rounded-lg transition-all text-slate-600">
+              ⚡ Normal
+            </button>
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Renderizado de Voz Premium</label>
+          <div class="flex items-center space-x-2 mt-2">
+            <input type="checkbox" id="use-gemini-tts" class="rounded text-teal-600 focus:ring-teal-400 w-4 h-4">
+            <span class="text-xs text-slate-600 font-medium">Usar voz de alta fidelidad Gemini</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Active Section: PRACTICE (Reverse Questioning) -->
+    <section id="section-practice" class="tab-content block space-y-6">
+      
+      <!-- Progress Bar Card & AI Prompt Builder -->
+      <div class="bg-white border border-slate-100 rounded-3xl p-5 shadow-sm flex flex-col md:flex-row items-center justify-between gap-4">
+        <div class="flex-1 w-full">
+          <div class="flex justify-between text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">
+            <span>Progreso del Desafío</span>
+            <span id="practice-progress-txt">Pregunta 1 de 100</span>
+          </div>
+          <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden">
+            <div id="practice-progress-bar" class="bg-gradient-to-r from-teal-400 to-indigo-500 h-full transition-all duration-500 w-1%"></div>
+          </div>
+        </div>
+        <div class="flex flex-wrap gap-2 w-full md:w-auto">
+          <!-- AI Prompt Generator Button -->
+          <button onclick="openAiGeneratorModal()" class="flex-1 md:flex-none px-4 py-2.5 text-xs font-bold bg-gradient-to-r from-indigo-500 to-teal-500 text-white rounded-xl flex items-center justify-center gap-1.5 transition-all hover:scale-105 shadow-md">
+            <i class="fa-solid fa-wand-magic-sparkles"></i> ✨ Crear Ejercicio con IA
+          </button>
+          <button onclick="resetPractice()" class="flex-1 md:flex-none px-4 py-2.5 text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-xl flex items-center justify-center gap-1.5 transition-all">
+            <i class="fa-solid fa-arrow-rotate-right"></i> Reiniciar y Mezclar
+          </button>
+        </div>
+      </div>
+
+      <!-- Core Reverse Questioning Card -->
+      <div class="bg-white border border-slate-100 rounded-3xl p-6 md:p-8 shadow-md relative overflow-hidden">
+        <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-teal-400 to-indigo-400"></div>
+
+        <div class="flex justify-between items-center mb-6">
+          <span id="exercise-type-tag" class="bg-amber-100 text-amber-800 text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-wider">
+            Preguntas Inversas (Orden Aleatorio)
+          </span>
+          <!-- A1 Formula Help Card Toggle -->
+          <button onclick="toggleHintModal()" class="text-teal-600 hover:text-teal-800 font-bold text-xs flex items-center gap-1.5 bg-teal-50 hover:bg-teal-100 px-3 py-1.5 rounded-full transition-all">
+            <i class="fa-regular fa-lightbulb text-amber-500 text-sm"></i> Ver Fórmula
+          </button>
+        </div>
+
+        <!-- Target Answer Box -->
+        <div class="bg-gradient-to-r from-teal-500/10 via-indigo-500/5 to-transparent border border-teal-100/50 p-6 rounded-2xl mb-6 relative">
+          <div class="absolute -top-3 left-4 bg-teal-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-md uppercase">
+            Lee y Escucha la Respuesta:
+          </div>
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mt-2">
+            <div class="space-y-2">
+              <h2 id="target-answer" class="text-lg md:text-2xl font-bold text-slate-800 leading-snug">
+                Yes, she does. She lives in New York.
+              </h2>
+              <!-- Dynamic Translation Feature -->
+              <div id="target-translation-box" class="hidden text-xs md:text-sm text-slate-500 italic bg-white/60 py-1.5 px-3 rounded-lg border border-slate-200/50 inline-block">
+                <i class="fa-solid fa-language text-teal-500 mr-1"></i> <span id="target-translation-text">Spanish Translation</span>
+              </div>
+            </div>
+            
+            <div class="flex space-x-2 self-end md:self-center">
+              <!-- Translation Option Button -->
+              <button onclick="toggleTranslation()" class="bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200 p-3 rounded-full shadow-sm hover:scale-105 transition-all duration-300 flex items-center justify-center" title="Mostrar/Ocultar Traducción">
+                <i class="fa-solid fa-eye text-base"></i>
+              </button>
+              <button onclick="speakTargetAnswer()" class="bg-teal-500 hover:bg-teal-600 text-white p-3.5 rounded-full shadow-lg hover:scale-105 transition-all duration-300 flex items-center justify-center" title="Escuchar">
+                <i class="fa-solid fa-volume-high text-lg"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Student Workspace -->
+        <div class="space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <label class="text-sm font-bold text-slate-600">Escribe o dicta la pregunta correcta:</label>
+          </div>
+
+          <div id="type-workspace" class="flex items-center gap-2.5">
+            <div class="relative flex-1">
+              <input type="text" id="type-input" placeholder="Escribe o dicta tu pregunta..." class="w-full pl-5 pr-12 py-4 rounded-2xl border-2 border-slate-200 focus:outline-none focus:border-indigo-400 text-lg font-medium transition-all shadow-inner bg-slate-50/50 focus:bg-white" onkeydown="handleKeyPress(event)">
+              <p class="text-[11px] text-slate-400 mt-1.5">Recuerda terminar con signo de interrogación (?) y usar mayúsculas correctamente!</p>
+            </div>
+            <!-- Dynamic Voice Dictation Option -->
+            <button id="dictate-btn" onclick="toggleDictation()" class="bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 text-indigo-600 w-14 h-14 rounded-2xl flex items-center justify-center shadow-md hover:scale-105 transition-all relative shrink-0 active:scale-95 duration-150" title="Dictar con tu voz">
+              <i id="dictate-mic-icon" class="fa-solid fa-microphone text-xl"></i>
+              <div id="dictate-pulse-ring" class="hidden absolute inset-0 bg-indigo-500/20 rounded-2xl animate-ping"></div>
+            </button>
+          </div>
+          <div id="dictation-status-txt" class="text-xs text-indigo-600 font-semibold hidden flex items-center gap-1.5 animate-pulse">
+            <i class="fa-solid fa-circle text-red-500 text-[8px]"></i> Habla claramente ahora...
+          </div>
+        </div>
+
+        <!-- Feedback & Action Footer -->
+        <div class="mt-8 pt-6 border-t border-slate-100 flex flex-col md:flex-row items-center justify-between gap-4">
+          <!-- Feedback Message Area -->
+          <div id="feedback-area" class="hidden flex items-center gap-3 w-full md:w-2/3">
+            <div id="feedback-icon" class="w-12 h-12 rounded-2xl flex items-center justify-center text-white text-lg">
+              <!-- Animated Icon -->
+            </div>
+            <div class="flex-1">
+              <div class="flex flex-wrap items-center gap-2">
+                <h4 id="feedback-title" class="font-bold text-base">¡Buen trabajo!</h4>
+                <!-- ✨ AI Smart Error Diagnostic Button -->
+                <button id="ai-diagnostic-btn" onclick="getAiDiagnostic()" class="hidden px-2.5 py-1 bg-gradient-to-r from-red-500 to-orange-500 text-white rounded-lg text-[10px] font-black shadow-sm hover:scale-105 transition-all flex items-center gap-1 animate-pulse">
+                  <i class="fa-solid fa-wand-magic-sparkles"></i> ✨ ¿Por qué fallé? (IA)
+                </button>
+              </div>
+              <p id="feedback-msg" class="text-xs text-slate-500 mt-0.5">Veamos los detalles de la explicación.</p>
+            </div>
+          </div>
+
+          <!-- Action buttons -->
+          <div class="flex space-x-3 w-full md:w-auto ml-auto">
+            <!-- Reveal Option Button -->
+            <button id="reveal-question-btn" onclick="revealCorrectAnswer()" class="px-5 py-3.5 bg-orange-50 hover:bg-orange-100 text-orange-700 border border-orange-200 font-bold rounded-2xl text-xs transition-all flex items-center gap-1.5">
+              <i class="fa-solid fa-eye-slash"></i> Revelar Q
+            </button>
+            <button id="skip-question-btn" onclick="skipQuestion()" class="flex-1 md:flex-none px-6 py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold rounded-2xl text-sm transition-all">
+              Saltar
+            </button>
+            <button id="check-question-btn" onclick="checkAnswer()" class="flex-2 md:flex-none px-8 py-3.5 bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-600 hover:to-emerald-600 text-white font-bold rounded-2xl text-sm shadow-md hover:shadow-lg transition-all transform active:scale-95">
+              Comprobar <i class="fa-solid fa-circle-check ml-1.5"></i>
+            </button>
+            <button id="next-question-btn" onclick="nextQuestion()" class="hidden flex-2 md:flex-none px-8 py-3.5 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-bold rounded-2xl text-sm shadow-md hover:shadow-lg transition-all transform active:scale-95">
+              Siguiente <i class="fa-solid fa-arrow-right ml-1.5"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Dynamic Smart Error Diagnostic Card -->
+        <div id="ai-diagnostic-card" class="hidden mt-4 p-4 bg-gradient-to-r from-rose-50 to-orange-50 border border-rose-100 rounded-2xl animate-zoom-in">
+          <div class="flex gap-3">
+            <div class="w-9 h-9 bg-rose-500 text-white rounded-xl flex items-center justify-center shrink-0 shadow-md">
+              <i class="fa-solid fa-brain text-sm"></i>
+            </div>
+            <div>
+              <span class="text-[10px] font-black text-rose-800 uppercase tracking-widest block mb-0.5">✨ Diagnóstico Inteligente Gemini IA</span>
+              <p id="ai-diagnostic-text" class="text-xs text-rose-950 font-medium leading-relaxed">Analizando diferencias estructurales...</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Interactive Explanation (Shows after Check) -->
+        <div id="explanation-box" class="hidden mt-6 p-5 bg-indigo-50/50 border border-indigo-100 rounded-2xl">
+          <div class="flex gap-2.5">
+            <i class="fa-solid fa-circle-info text-indigo-500 text-lg mt-0.5"></i>
+            <div class="flex-1">
+              <div class="flex justify-between items-start gap-4 flex-wrap">
+                <h5 class="font-bold text-indigo-900 text-sm">Gramática A1 de Apoyo</h5>
+                <!-- Ask AI Tutor Button -->
+                <button onclick="askAiGrammarCoach()" class="px-3.5 py-1.5 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-xl text-xs font-bold shadow-md hover:scale-105 transition-all flex items-center gap-1.5 shrink-0">
+                  <i class="fa-solid fa-sparkles"></i> ✨ Preguntar al Tutor IA
+                </button>
+              </div>
+              <p id="explanation-txt" class="text-xs text-indigo-700 mt-1 leading-relaxed">
+                Recuerda: Para la tercera persona (he, she, it) usamos <strong>Does</strong> y el verbo vuelve a su forma base (sin -s).
+              </p>
+              <div id="audio-comparison" class="mt-4 flex flex-wrap items-center gap-3">
+                <span class="text-xs font-bold text-slate-500">Escucha la pregunta correcta:</span>
+                <button onclick="speakCorrectQuestion()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-sm">
+                  <i class="fa-solid fa-volume-high"></i> Reproducir Pronunciación
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Active Section: SHADOWING LAB -->
+    <section id="section-shadow" class="tab-content hidden space-y-6">
+      
+      <!-- Studio Header / Mode info -->
+      <div class="bg-white border border-slate-100 rounded-3xl p-6 shadow-sm relative overflow-hidden">
+        <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-indigo-500 to-purple-500"></div>
+        <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <div class="flex items-center space-x-3.5">
+            <div class="w-12 h-12 bg-indigo-100 rounded-2xl flex items-center justify-center text-indigo-600">
+              <i class="fa-solid fa-microphone-lines text-xl"></i>
+            </div>
+            <div>
+              <h2 class="text-lg md:text-xl font-bold text-slate-800">Laboratorio de Pronunciación (Shadowing)</h2>
+              <p class="text-xs text-slate-400">¡Habla al mismo tiempo que el modelo nativo y comprueba tu similitud en 100 ejercicios aleatorios!</p>
+            </div>
+          </div>
+          <div class="flex space-x-2">
+            <button onclick="resetAndReshuffleShadows()" class="px-4 py-2 text-xs font-bold bg-indigo-50 hover:bg-indigo-100 text-indigo-700 rounded-xl transition-all">
+              <i class="fa-solid fa-shuffle"></i> Mezclar Oraciones
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Shadowing Sandbox Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <!-- Left Column: The Target Sentence and Playback -->
+        <div class="md:col-span-2 bg-white border border-slate-100 rounded-3xl p-6 shadow-md flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="bg-indigo-100 text-indigo-800 text-[10px] font-black px-2.5 py-1 rounded-full uppercase tracking-wider">
+                Oración Objetivo
+              </span>
+              <span class="text-xs text-slate-400 flex items-center gap-1">
+                <i class="fa-solid fa-headset text-indigo-400"></i> Método: ¡Escucha y repite!
+              </span>
+            </div>
+
+            <!-- Focus Sentence -->
+            <div class="py-8 text-center bg-slate-50/55 border border-slate-100 rounded-2xl relative my-4">
+              <h1 id="shadow-target-txt" class="text-xl md:text-3xl font-black text-slate-800 px-4 leading-relaxed">
+                Do you like drinking coffee in the morning?
+              </h1>
+              <span class="block mt-3 text-xs text-slate-400 italic font-medium" id="shadow-translation">¿Te gusta tomar café en la mañana?</span>
+            </div>
+
+            <!-- Native Audio Player Dashboard -->
+            <div class="flex items-center justify-between bg-slate-100/50 border border-slate-100/50 p-4 rounded-2xl mt-4">
+              <div class="flex items-center space-x-3">
+                <button onclick="playShadowTargetAudio()" class="w-12 h-12 bg-indigo-600 hover:bg-indigo-700 text-white rounded-full flex items-center justify-center shadow-md hover:scale-105 transition-all">
+                  <i class="fa-solid fa-play text-lg pl-0.5"></i>
+                </button>
+                <div>
+                  <h5 class="text-xs font-bold text-slate-700">Modelo de Voz</h5>
+                  <p class="text-[10px] text-slate-400">Escuchar repetidas veces perfecciona el ritmo</p>
+                </div>
+              </div>
+              <div class="flex items-center space-x-2">
+                <span class="text-[10px] bg-slate-200/80 font-bold px-2 py-1 rounded text-slate-500">Velocidad:</span>
+                <span id="shadow-speed-indicator" class="text-xs font-bold text-indigo-700">Lento (0.75x)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Micro & Voice Evaluation Section -->
+          <div class="mt-6 pt-6 border-t border-slate-100">
+            <div class="flex flex-col items-center justify-center space-y-4">
+              
+              <!-- Speech Wave Animation when Listening/Recording -->
+              <div id="speech-wave" class="flex items-end justify-center space-x-1.5 h-10 w-full mb-2 opacity-30">
+                <div class="bar w-1.5 bg-indigo-500 rounded-full h-1"></div>
+                <div class="bar w-1.5 bg-indigo-500 rounded-full h-1"></div>
+                <div class="bar w-1.5 bg-teal-400 rounded-full h-1"></div>
+                <div class="bar w-1.5 bg-indigo-500 rounded-full h-1"></div>
+                <div class="bar w-1.5 bg-indigo-500 rounded-full h-1"></div>
+              </div>
+
+              <!-- Main Recorder Button -->
+              <div class="relative">
+                <button id="shadow-record-btn" onclick="toggleShadowVoiceRecording()" class="w-20 h-20 bg-gradient-to-r from-teal-500 to-indigo-500 hover:from-teal-600 hover:to-indigo-600 text-white rounded-full flex items-center justify-center shadow-xl hover:scale-105 transition-all relative z-10 transform active:scale-95">
+                  <i id="shadow-mic-icon" class="fa-solid fa-microphone text-3xl"></i>
+                </button>
+                <!-- Radar effect -->
+                <div id="record-ring" class="absolute inset-0 bg-teal-500/30 rounded-full scale-100 opacity-0 transition-all duration-1000"></div>
+              </div>
+
+              <div class="text-center">
+                <h4 id="record-status-label" class="text-sm font-bold text-slate-600">¡Presiona el micrófono y habla!</h4>
+                <p id="mic-warning-message" class="text-xs text-slate-400 mt-1 max-w-xs mx-auto">Trata de mantener la misma entonación y velocidad del modelo nativo.</p>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right Column: Live Accuracy Feedback & Match Score -->
+        <div class="bg-white border border-slate-100 rounded-3xl p-6 shadow-md flex flex-col justify-between">
+          <div class="space-y-4">
+            <span class="bg-teal-100 text-teal-800 text-[10px] font-black px-2.5 py-1 rounded-full uppercase tracking-wider">
+              Análisis del Habla
+            </span>
+
+            <!-- Radial Match Gauge -->
+            <div class="flex flex-col items-center justify-center py-4 border-b border-slate-100">
+              <div class="relative w-32 h-32 flex items-center justify-center">
+                <!-- Circular SVG Track -->
+                <svg class="absolute inset-0 w-full h-full transform -rotate-90">
+                  <circle cx="64" cy="64" r="54" class="stroke-slate-100" stroke-width="10" fill="none"/>
+                  <circle cx="64" cy="64" r="54" id="accuracy-ring" class="stroke-teal-400 transition-all duration-1000" stroke-width="10" fill="none" stroke-dasharray="339" stroke-dashoffset="339"/>
+                </svg>
+                <div class="text-center z-10">
+                  <span id="accuracy-percentage" class="text-3xl font-black text-slate-700">0%</span>
+                  <p class="text-[9px] uppercase font-bold text-slate-400 tracking-wider">Similitud</p>
+                </div>
+              </div>
+              <span id="evaluation-tag" class="mt-4 px-3 py-1 rounded-full text-xs font-bold text-slate-500 bg-slate-100 animate-pulse">Esperando audio...</span>
+            </div>
+
+            <!-- Live Transcription Output -->
+            <div class="space-y-1">
+              <label class="text-xs font-bold text-slate-400 block uppercase">Lo que escuchamos:</label>
+              <div class="bg-slate-50 rounded-xl p-3 border border-slate-100 min-h-[60px] text-sm text-slate-600 font-medium italic">
+                "<span id="heard-transcript">Aquí se imprimirá tu voz en tiempo real...</span>"
+              </div>
+            </div>
+
+            <!-- ✨ AI Pronunciation Feedback Section -->
+            <div id="ai-pronunciation-feedback-container" class="hidden p-3 bg-indigo-50 border border-indigo-100 rounded-2xl animate-zoom-in">
+              <span class="text-[10px] font-black text-indigo-800 uppercase tracking-widest block mb-1">✨ Análisis de Fonética (IA)</span>
+              <p id="ai-pronunciation-text" class="text-[11px] text-indigo-950 font-semibold leading-relaxed">Generando consejos fonéticos de Gemini...</p>
+            </div>
+          </div>
+
+          <!-- Self-evaluation buttons if speech recognition fails or is unsupported -->
+          <div class="mt-4 pt-4 border-t border-slate-100 space-y-3">
+            <!-- Ask AI for Pronunciation Tips -->
+            <button id="ai-pronunciation-btn" onclick="getAiPronunciationTips()" class="hidden w-full py-2 bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 text-white rounded-xl text-xs font-black shadow-sm transition-all hover:scale-[1.02] flex items-center justify-center gap-1.5">
+              <i class="fa-solid fa-sparkles"></i> ✨ Consejos de Pronunciación (IA)
+            </button>
+
+            <div>
+              <span class="text-[10px] text-slate-400 font-bold uppercase block mb-1">Comprobación manual (Opcional):</span>
+              <div class="grid grid-cols-2 gap-2">
+                <button onclick="manualScoreUpdate(false)" class="px-3 py-1.5 bg-slate-100 hover:bg-red-50 hover:text-red-600 text-xs text-slate-600 font-bold rounded-xl transition-all">
+                  Reintentar 🔄
+                </button>
+                <button onclick="manualScoreUpdate(true)" class="px-3 py-1.5 bg-teal-50 hover:bg-teal-100 text-teal-700 text-xs font-bold rounded-xl transition-all">
+                  ¡Logrado! 🎉
+                </button>
+              </div>
+            </div>
+
+            <!-- NEXT EXERCISE BUTTON FOR LISTENING/SHADOWING -->
+            <button id="next-shadow-btn" onclick="loadNextShadowPrompt()" class="w-full py-3 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-bold rounded-2xl text-sm transition-all shadow-md transform hover:scale-[1.02] flex items-center justify-center gap-2">
+              Siguiente Ejercicio <i class="fa-solid fa-circle-arrow-right"></i>
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- Active Section: CHEAT SHEET (Grammar Guide) -->
+    <section id="section-guide" class="tab-content hidden space-y-6">
+      
+      <!-- Visual Anchor Infographic Card -->
+      <div class="bg-gradient-to-r from-teal-400 to-indigo-600 text-white rounded-3xl p-6 md:p-8 shadow-lg relative overflow-hidden">
+        <div class="absolute -right-10 -bottom-10 opacity-15 text-9xl">
+          <i class="fa-solid fa-brain"></i>
+        </div>
+        <div class="max-w-xl">
+          <span class="bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">Soporte Visual A1</span>
+          <h2 class="text-2xl md:text-3xl font-black mt-3 leading-tight fun-title">Reglas de Preguntas: Presente Simple</h2>
+          <p class="text-sm text-teal-50 mt-2">En inglés necesitamos auxiliares para formular preguntas. Usamos <span class="underline font-bold">DO</span> o <span class="underline font-bold">DOES</span> antes del sujeto para activar la pregunta.</p>
+        </div>
+      </div>
+
+      <!-- Live Formula Sandbox -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        
+        <!-- Yes/No Question Rule Card -->
+        <div class="bg-white border border-slate-100 rounded-3xl p-6 shadow-md">
+          <div class="flex items-center space-x-2.5 mb-4">
+            <span class="w-8 h-8 rounded-full bg-teal-100 text-teal-700 flex items-center justify-center font-bold text-sm">1</span>
+            <h3 class="font-bold text-slate-700 text-base">Preguntas de Sí / No</h3>
+          </div>
+          <p class="text-xs text-slate-400 mb-4">Se usan cuando la respuesta empieza con un simple <span class="text-teal-600 font-bold">Yes</span> o <span class="text-teal-600 font-bold">No</span>.</p>
+          
+          <div class="bg-slate-50 rounded-2xl p-4 border border-slate-100 space-y-3.5">
+            <div class="flex items-center justify-between text-xs font-black text-slate-400 uppercase tracking-widest text-center border-b border-slate-100 pb-2">
+              <span class="w-1/4">Auxiliar</span>
+              <span class="w-1/4">Sujeto</span>
+              <span class="w-2/4">Verbo (Base) + ...?</span>
+            </div>
+            
+            <div class="flex items-center justify-between text-sm font-bold text-slate-700 text-center">
+              <span class="w-1/4 text-teal-600">Do</span>
+              <span class="w-1/4 text-slate-500">I/you/we/they</span>
+              <span class="w-2/4 text-indigo-600">play football?</span>
+            </div>
+            
+            <div class="flex items-center justify-between text-sm font-bold text-slate-700 text-center">
+              <span class="w-1/4 text-teal-600">Does</span>
+              <span class="w-1/4 text-slate-500">he/she/it</span>
+              <span class="w-2/4 text-indigo-600">play tennis?</span>
+            </div>
+          </div>
+
+          <div class="mt-4 p-3 bg-amber-50 border border-amber-100 rounded-xl flex items-start gap-2">
+            <i class="fa-solid fa-triangle-exclamation text-amber-500 text-xs mt-0.5"></i>
+            <p class="text-[10px] text-amber-800 leading-normal"><strong>Trampa A1:</strong> ¡Nunca agregues "-s" al verbo en una pregunta! Di "Does he <strong>play</strong>?", NO "Does he plays?".</p>
+          </div>
+        </div>
+
+        <!-- Wh- Question Rule Card -->
+        <div class="bg-white border border-slate-100 rounded-3xl p-6 shadow-md">
+          <div class="flex items-center space-x-2.5 mb-4">
+            <span class="w-8 h-8 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold text-sm">2</span>
+            <h3 class="font-bold text-slate-700 text-base">Preguntas con Wh- (Información)</h3>
+          </div>
+          <p class="text-xs text-slate-400 mb-4">Se usan cuando la respuesta provee información específica (lugares, tiempos, objetos).</p>
+
+          <div class="bg-slate-50 rounded-2xl p-4 border border-slate-100 space-y-3.5">
+            <div class="flex items-center justify-between text-xs font-black text-slate-400 uppercase tracking-widest text-center border-b border-slate-100 pb-2">
+              <span class="w-1/5">Palabra Wh-</span>
+              <span class="w-1/5">Aux</span>
+              <span class="w-1/5">Sujeto</span>
+              <span class="w-2/5">Verbo Base + ...?</span>
+            </div>
+
+            <div class="flex items-center justify-between text-sm font-bold text-slate-700 text-center">
+              <span class="w-1/5 text-purple-600">Where</span>
+              <span class="w-1/5 text-teal-600">do</span>
+              <span class="w-1/5 text-slate-500">you</span>
+              <span class="w-2/5 text-indigo-600">live?</span>
+            </div>
+
+            <div class="flex items-center justify-between text-sm font-bold text-slate-700 text-center">
+              <span class="w-1/5 text-purple-600">When</span>
+              <span class="w-1/5 text-teal-600">does</span>
+              <span class="w-1/5 text-slate-500">he</span>
+              <span class="w-2/5 text-indigo-600">wake up?</span>
+            </div>
+          </div>
+
+          <div class="mt-4 grid grid-cols-2 gap-2">
+            <div class="bg-slate-100/50 p-2 rounded-lg text-center">
+              <span class="block text-xs font-bold text-indigo-900">What</span>
+              <span class="text-[10px] text-slate-400">Objeto / Cosa</span>
+            </div>
+            <div class="bg-slate-100/50 p-2 rounded-lg text-center">
+              <span class="block text-xs font-bold text-indigo-900">Where</span>
+              <span class="text-[10px] text-slate-400">Lugar / Ubicación</span>
+            </div>
+            <div class="bg-slate-100/50 p-2 rounded-lg text-center">
+              <span class="block text-xs font-bold text-indigo-900">What time</span>
+              <span class="text-[10px] text-slate-400">Horas / Momento</span>
+            </div>
+            <div class="bg-slate-100/50 p-2 rounded-lg text-center">
+              <span class="block text-xs font-bold text-indigo-900">How often</span>
+              <span class="text-[10px] text-slate-400">Frecuencia</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Sleek Gemini API Config Modal -->
+  <div id="key-modal" class="hidden fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl w-full max-w-md shadow-2xl overflow-hidden border border-teal-100 animate-zoom-in">
+      <div class="p-6 bg-gradient-to-r from-indigo-500 to-indigo-600 text-white flex justify-between items-center">
+        <h3 class="font-black text-lg fun-title flex items-center gap-2">
+          <i class="fa-solid fa-key"></i> Configurar Clave Gemini
+        </h3>
+        <button onclick="toggleKeyModal()" class="w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center text-white font-bold transition-all">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      
+      <div class="p-6 space-y-4">
+        <p class="text-xs text-slate-500 leading-relaxed">
+          Ingresa tu clave de API personal para desbloquear voces ultrarrealistas generadas directamente en la nube por Gemini, activar el **✨ Tutor de Inteligencia Artificial**, solicitar **✨ Diagnósticos de tus errores** y obtener **✨ Consejos de Pronunciación**. Tu clave se almacena de forma local y segura en tu cuenta sincronizada.
+        </p>
+        
+        <div class="space-y-2">
+          <label class="block text-xs font-bold uppercase text-slate-500">Clave API Gemini</label>
+          <div class="relative">
+            <input type="password" id="gemini-key-input" placeholder="AIzaSy..." class="w-full pl-4 pr-10 py-3 text-sm rounded-2xl border-2 border-slate-200 focus:outline-none focus:border-indigo-400 bg-slate-50">
+            <button onclick="toggleKeyVisibility()" class="absolute right-3 top-3.5 text-slate-400 hover:text-slate-600">
+              <i id="key-visibility-icon" class="fa-solid fa-eye text-sm"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Obtener Key Direct Link Info -->
+        <div class="bg-indigo-50 border border-indigo-100 rounded-2xl p-4 flex items-start gap-3">
+          <div class="text-indigo-500 text-lg mt-0.5 animate-pulse shrink-0">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+          </div>
+          <div class="space-y-1">
+            <span class="text-xs font-bold text-indigo-950 block">¿No tienes una clave de API?</span>
+            <p class="text-[11px] text-slate-500 leading-normal mb-1.5">Las claves son completamente gratuitas y se generan de forma instantánea.</p>
+            <a href="https://aistudio.google.com/" target="_blank" class="text-xs font-black text-indigo-600 hover:text-indigo-800 underline inline-flex items-center gap-1 transition-all">
+              Obtén tu clave gratis en Google AI Studio <i class="fa-solid fa-arrow-up-right-from-square text-[9px]"></i>
+            </a>
+          </div>
+        </div>
+
+        <div id="modal-key-badge-container" class="flex justify-between items-center bg-slate-50 px-4 py-2.5 rounded-xl border border-slate-100">
+          <span class="text-xs font-bold text-slate-500">Estado de Voz:</span>
+          <span id="key-badge" class="text-[11px] bg-slate-100 text-slate-500 font-bold px-2.5 py-0.5 rounded-full">Sin Clave (Voz local activa)</span>
+        </div>
+      </div>
+      
+      <div class="bg-slate-50 px-6 py-4 border-t border-slate-100 flex justify-between items-center">
+        <button id="remove-key-btn" onclick="removeGeminiApiKey()" class="hidden px-4 py-2.5 bg-rose-50 hover:bg-rose-100 text-rose-600 text-xs font-bold rounded-xl transition-all">
+          Eliminar Clave
+        </button>
+        <div class="flex gap-2 ml-auto">
+          <button onclick="toggleKeyModal()" class="px-4 py-2.5 bg-slate-200 text-slate-700 font-bold rounded-xl text-xs hover:bg-slate-300 transition-all">
+            Cerrar
+          </button>
+          <button onclick="saveGeminiApiKey()" class="px-5 py-2.5 bg-indigo-600 text-white font-bold rounded-xl text-xs hover:bg-indigo-700 transition-all shadow-sm">
+            Guardar Clave
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dynamic AI Challenge Generator Modal -->
+  <div id="ai-generator-modal" class="hidden fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl w-full max-w-md shadow-2xl overflow-hidden border border-teal-100 animate-zoom-in">
+      <div class="p-6 bg-gradient-to-r from-teal-500 to-indigo-600 text-white flex justify-between items-center">
+        <h3 class="font-black text-lg fun-title flex items-center gap-2">
+          <i class="fa-solid fa-wand-magic-sparkles"></i> ✨ Diseñar Ejercicio con IA
+        </h3>
+        <button onclick="closeAiGeneratorModal()" class="w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center text-white font-bold transition-all">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      
+      <div class="p-6 space-y-4">
+        <p class="text-xs text-slate-500 leading-relaxed">
+          Escribe una palabra clave o tema de tu interés (ej. *dogs*, *hobbies*, *video games*, *cooking*, *movies*). Gemini creará una estructura interactiva de pregunta en Presente Simple perfecta para tu nivel A1.
+        </p>
+        
+        <div class="space-y-2">
+          <label class="block text-xs font-bold uppercase text-slate-500">Tema del Ejercicio</label>
+          <input type="text" id="ai-topic-input" placeholder="Ej: video games, family, travel..." class="w-full px-4 py-3 text-sm rounded-2xl border-2 border-slate-200 focus:outline-none focus:border-indigo-400 bg-slate-50 font-medium">
+        </div>
+
+        <div id="ai-loading-indicator" class="hidden flex flex-col items-center justify-center py-4 space-y-3">
+          <div class="flex items-center justify-center space-x-2">
+            <div class="w-3 h-3 bg-indigo-500 rounded-full animate-bounce"></div>
+            <div class="w-3 h-3 bg-teal-500 rounded-full animate-bounce [animation-delay:0.2s]"></div>
+            <div class="w-3 h-3 bg-purple-500 rounded-full animate-bounce [animation-delay:0.4s]"></div>
+          </div>
+          <p class="text-xs text-indigo-600 font-semibold animate-pulse">✨ Gemini está diseñando tu desafío personalizado...</p>
+        </div>
+      </div>
+      
+      <div class="bg-slate-50 px-6 py-4 border-t border-slate-100 flex justify-end gap-2">
+        <button onclick="closeAiGeneratorModal()" class="px-4 py-2.5 bg-slate-200 text-slate-600 font-bold rounded-xl text-xs hover:bg-slate-300 transition-all">
+          Cancelar
+        </button>
+        <button onclick="generateCustomChallenge()" class="px-5 py-2.5 bg-gradient-to-r from-teal-500 to-indigo-600 text-white font-bold rounded-xl text-xs hover:scale-105 transition-all shadow-sm">
+          ✨ Generar Ejercicio
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive AI Tutor Side Panel -->
+  <div id="ai-tutor-panel" class="hidden fixed top-0 right-0 h-full w-full sm:w-[450px] bg-white z-50 shadow-2xl border-l border-slate-100 flex flex-col transition-all duration-300">
+    <div class="p-5 bg-gradient-to-r from-indigo-600 to-purple-600 text-white flex justify-between items-center shrink-0">
+      <div class="flex items-center gap-2.5">
+        <div class="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center text-white">
+          <i class="fa-solid fa-graduation-cap text-lg"></i>
+        </div>
+        <div>
+          <h3 class="font-black text-sm md:text-base fun-title">✨ Tutor Gramatical IA</h3>
+          <p class="text-[10px] text-indigo-100 font-medium">Asesoramiento inteligente en tiempo real</p>
+        </div>
+      </div>
+      <button onclick="closeAiTutorPanel()" class="w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center text-white font-bold transition-all">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <!-- Chat history area -->
+    <div id="ai-chat-body" class="flex-1 overflow-y-auto p-5 space-y-4 bg-slate-50">
+      <!-- Default AI Coach welcome message -->
+      <div class="flex gap-2.5 max-w-[85%]">
+        <div class="w-8 h-8 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center shrink-0">
+          <i class="fa-solid fa-sparkles text-xs"></i>
+        </div>
+        <div class="bg-white p-3.5 rounded-2xl rounded-tl-none shadow-sm border border-slate-100">
+          <p class="text-xs text-slate-700 leading-relaxed font-medium">
+            ¡Hola! Soy tu tutor personal de inglés. Estoy aquí para analizar tus respuestas, explicarte los errores gramaticales o darte nuevos ejemplos para mejorar en tu nivel A1.
+          </p>
+          <span class="block text-[9px] text-slate-400 mt-1">Tutor IA • Ahora</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Live prompt template pills -->
+    <div id="ai-quick-pills" class="p-3 bg-white border-t border-slate-100 flex gap-2 overflow-x-auto shrink-0">
+      <button onclick="sendQuickAiQuery('Explícame de manera muy sencilla por qué se usa do/does en este ejercicio.')" class="px-3 py-1.5 bg-slate-100 hover:bg-indigo-50 hover:text-indigo-700 text-[10px] font-bold rounded-full text-slate-600 shrink-0 transition-all">
+        💡 Explicación simple
+      </button>
+      <button onclick="sendQuickAiQuery('Dame otros 3 ejemplos de preguntas parecidas.')" class="px-3 py-1.5 bg-slate-100 hover:bg-indigo-50 hover:text-indigo-700 text-[10px] font-bold rounded-full text-slate-600 shrink-0 transition-all">
+        📖 Más ejemplos
+      </button>
+      <button onclick="sendQuickAiQuery('¿Cómo respondo a esta pregunta de forma negativa?')" class="px-3 py-1.5 bg-slate-100 hover:bg-indigo-50 hover:text-indigo-700 text-[10px] font-bold rounded-full text-slate-600 shrink-0 transition-all">
+        ❌ Respuesta negativa
+      </button>
+    </div>
+
+    <!-- Chat user input box -->
+    <div class="p-4 bg-white border-t border-slate-100 shrink-0">
+      <div class="flex gap-2">
+        <input type="text" id="ai-chat-input" placeholder="Pregunta algo sobre el ejercicio..." class="flex-1 px-4 py-2.5 text-xs rounded-xl border border-slate-200 focus:outline-none focus:border-indigo-400 bg-slate-50 font-medium" onkeydown="handleAiChatKeyPress(event)">
+        <button onclick="sendAiChatMessage()" class="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold transition-all shadow-sm">
+          Enviar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Real-time Cloud Sincronización Core Module -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInWithCustomToken, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    // Setup global handle for safe imports fallback
+    window.firebaseModule = {
+      initializeApp, getAuth, signInWithCustomToken, signInAnonymously, onAuthStateChanged, getFirestore, doc, setDoc, getDoc
+    };
+  </script>
+
+  <!-- Audio Player Core Logic and Script -->
+  <script>
+    // Empty API Key placeholder for Gemini Runtime environments
+    let windowGeminiApiKey = "";
+    
+    // Global State
+    let state = {
+      score: 0,
+      streak: 0,
+      currentTab: 'practice',
+      currentPracticeIdx: 0,
+      currentPracticePrompt: null,
+      speechRate: 0.75, // slow default for A1 shadowing
+      isRecording: false,
+      isDictating: false,
+      audioSettingsOpen: false,
+      translationVisible: false,
+      shuffledPrompts: [], // Randomized container for the 100 questions
+      shuffledShadows: []  // Randomized container for the 100 shadowing prompts
+    };
+
+    // Firebase state initialization references
+    let firebaseApp = null;
+    let auth = null;
+    let db = null;
+    let appId = 'default-app-id';
+
+    // A1 Question Bank - exactly 100 high quality exercises
+    const rawPracticePrompts = [
+      { id: 1, answer: "Yes, I do. I live in London.", correctQuestion: "Do you live in London?", clue: "Do", translation: "Sí, vivo en Londres.", explanation: "Para 'I live...', la pregunta se dirige a 'you'. Usa el auxiliar 'Do' y el sujeto 'you'." },
+      { id: 2, answer: "No, she doesn't. She plays tennis.", correctQuestion: "Does she play tennis?", clue: "Does", translation: "No. Ella juega tenis.", explanation: "Con 'she', usa 'Does'. El verbo principal 'plays' vuelve a su forma base 'play'." },
+      { id: 3, answer: "No, they don't. They don't have a cat.", correctQuestion: "Do they have a cat?", clue: "Do", translation: "No. Ellos no tienen un gato.", explanation: "La respuesta negativa 'They don't have...' indica una pregunta con 'Do they'." },
+      { id: 4, answer: "At 7 o'clock. I wake up at 7 o'clock.", correctQuestion: "What time do you wake up?", clue: "What time", translation: "A las 7 en punto. Me despierto a las 7 en punto.", explanation: "Dado que indica una hora en punto, inicia con la frase interrogativa 'What time'." },
+      { id: 5, answer: "She works in a hospital.", correctQuestion: "Where does she work?", clue: "Where", translation: "Ella trabaja en un hospital.", explanation: "Lugares requieren 'Where'. Como el sujeto es 'she', se usa 'does she' más el verbo base 'work'." },
+      { id: 6, answer: "Yes, we do. We speak Spanish.", correctQuestion: "Do you speak Spanish?", clue: "Do", translation: "Sí, hablamos español.", explanation: "Cuando la respuesta es 'we' (nosotros), la pregunta va dirigida a 'you' (ustedes)." },
+      { id: 7, answer: "No, he doesn't like milk.", correctQuestion: "Does he like milk?", clue: "Does", translation: "No, a él no le gusta la leche.", explanation: "Con 'he', inicia con 'Does' y elimina la '-s' de 'likes' convirtiéndose en 'like'." },
+      { id: 8, answer: "On Saturdays. They play football on Saturdays.", correctQuestion: "When do they play football?", clue: "When", translation: "Los sábados. Ellos juegan fútbol los sábados.", explanation: "Para preguntar sobre días o marcos temporales se usa el Wh-word 'When'." },
+      { id: 9, answer: "Because I want to learn.", correctQuestion: "Why do you study English?", clue: "Why", translation: "Porque quiero aprender.", explanation: "Las respuestas que inician con 'Because' explican razones. Siempre inicia estas preguntas con 'Why'." },
+      { id: 10, answer: "I eat pizza for lunch.", correctQuestion: "What do you eat for lunch?", clue: "What", translation: "Como pizza para el almuerzo.", explanation: "Los alimentos son objetos o cosas, requiriendo 'What' como palabra interrogativa." },
+      { id: 11, answer: "Yes, he does. My father drives a red car.", correctQuestion: "Does your father drive a red car?", clue: "Does", translation: "Sí. Mi padre conduce un carro rojo.", explanation: "Dado que 'your father' es singular (he), inicia con 'Does' y usa la forma base 'drive'." },
+      { id: 12, answer: "I go to the gym twice a week.", correctQuestion: "How often do you go to the gym?", clue: "How often", translation: "Voy al gimnasio dos veces a la semana.", explanation: "Cuando se indica una frecuencia ('twice a week'), debes iniciar con 'How often'." },
+      { id: 13, answer: "They watch movies at the cinema.", correctQuestion: "Where do they watch movies?", clue: "Where", translation: "Ellos ven películas en el cine.", explanation: "'At the cinema' es un lugar, por lo que debes comenzar con 'Where'." },
+      { id: 14, answer: "Yes, it does. It rains a lot in winter.", correctQuestion: "Does it rain a lot in winter?", clue: "Does", translation: "Sí, llueve mucho en invierno.", explanation: "El pronombre de clima 'it' es tercera persona singular, requiriendo el auxiliar 'Does'." },
+      { id: 15, answer: "She drinks tea in the afternoon.", correctQuestion: "What does she drink in the afternoon?", clue: "What", translation: "Ella bebe té por la tarde.", explanation: "Para preguntar por el objeto ('tea') que ella consume, iniciamos con 'What'." },
+      { id: 16, answer: "We listen to music in the evening.", correctQuestion: "When do you listen to music?", clue: "When", translation: "Escuchamos música por la noche.", explanation: "'In the evening' se refiere a un periodo de tiempo, lo que requiere iniciar con 'When'." },
+      { id: 17, answer: "He teaches mathematics.", correctQuestion: "What does he teach?", clue: "What", translation: "Él enseña matemáticas.", explanation: "'Mathematics' es un objeto de estudio, por lo que usamos 'What' + 'does he' + verbo base." },
+      { id: 18, answer: "No, they don't. They don't live in a big house.", correctQuestion: "Do they live in a big house?", clue: "Do", translation: "No. Ellos no viven en una casa grande.", explanation: "Es una pregunta de confirmación directa de sí/no para el sujeto plural 'they'." },
+      { id: 19, answer: "She goes to sleep at 10 PM.", correctQuestion: "What time does she go to sleep?", clue: "What time", translation: "Ella se va a dormir a las 10 PM.", explanation: "Para averiguar la hora exacta del reloj, usa 'What time' más el auxiliar 'does she'." },
+      { id: 20, answer: "I travel by train because it is cheap.", correctQuestion: "How do you travel?", clue: "How", translation: "Viajo en tren porque es barato.", explanation: "Para preguntar por el medio o método de transporte usado, se inicia con 'How'." },
+      { id: 21, answer: "Yes, I do. I understand the teacher.", correctQuestion: "Do you understand the teacher?", clue: "Do", translation: "Sí, entiendo al profesor/a.", explanation: "Confirmar un estado o acción directa requiere el auxiliar 'Do' con 'you'." },
+      { id: 22, answer: "He wakes up early because he has a job.", correctQuestion: "Why does he wake up early?", clue: "Why", translation: "Él se despierta temprano porque tiene trabajo.", explanation: "La cláusula explicativa 'because he has a job' indica una pregunta con 'Why'." },
+      { id: 23, answer: "They study in the library.", correctQuestion: "Where do they study?", clue: "Where", translation: "Ellos estudian en la biblioteca.", explanation: "'In the library' hace referencia a un lugar, solicitando el uso de 'Where'." },
+      { id: 24, answer: "No, she doesn't. She doesn't speak French.", correctQuestion: "Does she speak French?", clue: "Does", translation: "No. Ella no habla francés.", explanation: "Pregunta directa sobre habilidad lingüística para 'she' comenzando con 'Does'." },
+      { id: 25, answer: "We cook dinner at 8 PM.", correctQuestion: "When do you cook dinner?", clue: "When", translation: "Cocinamos la cena a las 8 PM.", explanation: "Consultar horarios de rutinas equivale a iniciar la estructura con 'When'." },
+      { id: 26, answer: "My brother plays the guitar.", correctQuestion: "What does your brother play?", clue: "What", translation: "Mi hermano toca la guitarra.", explanation: "Para identificar el instrumento, usa 'What' más el auxiliar 'does' por ser tercera persona singular." },
+      { id: 27, answer: "Yes, they do. They work on Sundays.", correctQuestion: "Do they work on Sundays?", clue: "Do", translation: "Sí, ellos trabajan los domingos.", explanation: "Para rutinas grupales en plural, inicia la confirmación directamente con 'Do'." },
+      { id: 28, answer: "She visits her parents on weekends.", correctQuestion: "When does she visit her parents?", clue: "When", translation: "Ella visita a sus padres los fines de semana.", explanation: "Tiempos recurrentes ('on weekends') activan 'When' y 'does' para 'she'." },
+      { id: 29, answer: "He buys bread at the supermarket.", correctQuestion: "Where does he buy bread?", clue: "Where", translation: "Él compra pan en el supermercado.", explanation: "Dado que el lugar de compra está especificado, la pregunta correspondiente inicia con 'Where'." },
+      { id: 30, answer: "I drink orange juice for breakfast.", correctQuestion: "What do you drink for breakfast?", clue: "What", translation: "Bebo jugo de naranja para el desayuno.", explanation: "Una elección de bebida o comida para una comida específica requiere preguntar con 'What'." },
+      { id: 31, answer: "No, they don't. They don't like horror films.", correctQuestion: "Do they like horror films?", clue: "Do", translation: "No. A ellos no les gustan las películas de terror.", explanation: "Formulamos la pregunta de sí/no empleando el auxiliar 'Do' con el pronombre plural 'they'." },
+      { id: 32, answer: "She sings beautiful songs.", correctQuestion: "What does she sing?", clue: "What", translation: "Ella canta hermosas canciones.", explanation: "Para identificar qué objeto de canto realiza ella, empleamos 'What' + 'does' + 'she'." },
+      // 33-100 New Practice Prompts
+      { id: 33, answer: "Yes, I do. I work on Saturdays.", correctQuestion: "Do you work on Saturdays?", clue: "Do", translation: "Sí, trabajo los sábados.", explanation: "Usa el auxiliar 'Do' para preguntar sobre la rutina de trabajo de 'you'." },
+      { id: 34, answer: "She lives in Madrid.", correctQuestion: "Where does she live?", clue: "Where", translation: "Ella vive en Madrid.", explanation: "Para lugares como 'Madrid', inicia con 'Where' seguido del auxiliar 'does'." },
+      { id: 35, answer: "He plays video games at night.", correctQuestion: "When does he play video games?", clue: "When", translation: "Él juega videojuegos por la noche.", explanation: "'At night' indica tiempo, usa 'When' + 'does' + 'he'." },
+      { id: 36, answer: "No, they don't. They don't eat meat.", correctQuestion: "Do they eat meat?", clue: "Do", translation: "No, ellos no comen carne.", explanation: "Pregunta directa sobre dieta para 'they', empezando con 'Do'." },
+      { id: 37, answer: "At 8:30. The class starts at 8:30.", correctQuestion: "What time does the class start?", clue: "What time", translation: "A las 8:30. La clase comienza a las 8:30.", explanation: "Para horas específicas, usa 'What time' y el auxiliar 'does' para el sujeto singular 'the class'." },
+      { id: 38, answer: "Yes, she does. She loves chocolate.", correctQuestion: "Does she love chocolate?", clue: "Does", translation: "Sí, a ella le encanta el chocolate.", explanation: "Usa 'Does' para el sujeto 'she' y mantén el verbo 'love' en forma base." },
+      { id: 39, answer: "We go to the beach on Sundays.", correctQuestion: "When do you go to the beach?", clue: "When", translation: "Vamos a la playa los domingos.", explanation: "Los domingos ('on Sundays') requiere 'When' con el pronombre de segunda persona 'you'." },
+      { id: 40, answer: "He drives a blue truck.", correctQuestion: "What does he drive?", clue: "What", translation: "Él conduce un camión azul.", explanation: "Pregunta por el objeto del verbo conducir usando 'What' y 'does' para 'he'." },
+      { id: 41, answer: "No, I don't. I do not drink alcohol.", correctQuestion: "Do you drink alcohol?", clue: "Do", translation: "No, yo no tomo alcohol.", explanation: "Una pregunta simple de sí/no dirigida a la segunda persona utilizando 'Do'." },
+      { id: 42, answer: "They study history at university.", correctQuestion: "What do they study at university?", clue: "What", translation: "Ellos estudian historia en la universidad.", explanation: "Usa 'What' para preguntar por la materia de estudio 'history'." },
+      { id: 43, answer: "She cooks Italian food because she loves Italy.", correctQuestion: "Why does she cook Italian food?", clue: "Why", translation: "Ella cocina comida italiana porque ama Italia.", explanation: "Inicia con 'Why' para preguntar por la razón de su cocina." },
+      { id: 44, answer: "We meet our friends in the park.", correctQuestion: "Where do you meet your friends?", clue: "Where", translation: "Nos reunimos con nuestros amigos en el parque.", explanation: "'In the park' es un lugar, por lo que usamos 'Where' y el auxiliar 'do'." },
+      { id: 45, answer: "Yes, they do. They speak Japanese fluently.", correctQuestion: "Do they speak Japanese?", clue: "Do", translation: "Sí, ellos hablan japonés con fluidez.", explanation: "Para consultar si un grupo posee una habilidad idiomática, usa 'Do they'." },
+      { id: 46, answer: "He runs 5 kilometers every morning.", correctQuestion: "How far does he run every morning?", clue: "How far", translation: "Él corre 5 kilómetros cada mañana.", explanation: "Para preguntar por distancias, usa 'How far' más el auxiliar 'does'." },
+      { id: 47, answer: "No, he doesn't. He doesn't have a car.", correctQuestion: "Does he have a car?", clue: "Does", translation: "No, él no tiene un carro.", explanation: "La pregunta de posesión de tercera persona requiere 'Does he' y el verbo base 'have'." },
+      { id: 48, answer: "She travels to Europe once a year.", correctQuestion: "How often does she travel to Europe?", clue: "How often", translation: "Ella ya no viaja a Europa una vez al año.", explanation: "'Once a year' es una frecuencia, lo que requiere iniciar con 'How often'." },
+      { id: 49, answer: "We buy fresh vegetables at the local market.", correctQuestion: "Where do you buy fresh vegetables?", clue: "Where", translation: "Compramos verduras frescas en el mercado local.", explanation: "Iniciamos la pregunta con 'Where' porque indica un lugar físico." },
+      { id: 50, answer: "Yes, she does. She plays the piano beautifully.", correctQuestion: "Does she play the piano?", clue: "Does", translation: "Sí, ella toca el piano de manera hermosa.", explanation: "Pregunta directa de confirmación sobre un instrumento musical con 'Does she'." },
+      { id: 51, answer: "I sleep 8 hours every night.", correctQuestion: "How many hours do you sleep every night?", clue: "How many hours", translation: "Duermo 8 horas cada noche.", explanation: "Para preguntar por cantidades contables de horas, se inicia con 'How many hours'." },
+      { id: 52, answer: "They go to the cinema on Fridays.", correctQuestion: "When do they go to the cinema?", clue: "When", translation: "Ellos van al cine los viernes.", explanation: "'On Fridays' indica un patrón de tiempo que se responde con 'When'." },
+      { id: 53, answer: "My dog barks at the mailman.", correctQuestion: "Who does your dog bark at?", clue: "Who", translation: "Mi perro le ladra al cartero.", explanation: "Para preguntar por la persona afectada por la acción (el cartero), usa 'Who'." },
+      { id: 54, answer: "No, we don't. We don't watch television.", correctQuestion: "Do you watch television?", clue: "Do", translation: "No, nosotros no vemos televisión.", explanation: "Pregunta de confirmación simple para 'you' (en plural) usando el auxiliar 'Do'." },
+      { id: 55, answer: "He works in a tech company.", correctQuestion: "Where does he work?", clue: "Where", translation: "Él trabaja en una empresa de tecnología.", explanation: "'In a tech company' es una locación de trabajo, requiriendo 'Where'." },
+      { id: 56, answer: "She teaches English online.", correctQuestion: "What does she teach online?", clue: "What", translation: "Ella enseña inglés en línea.", explanation: "Identificamos el objeto de enseñanza ('English') mediante 'What' + 'does she'." },
+      { id: 57, answer: "Yes, I do. I write poetry in my free time.", correctQuestion: "Do you write poetry in your free time?", clue: "Do", translation: "Sí, escribo poesía en mi tiempo libre.", explanation: "Usa el auxiliar simple 'Do' con la segunda persona 'you'." },
+      { id: 58, answer: "They live near the beach.", correctQuestion: "Do they live near the beach?", clue: "Do", translation: "Sí, ellos viven cerca de la playa.", explanation: "Pregunta directa de confirmación basada en la proximidad geográfica." },
+      { id: 59, answer: "The train leaves at 9 AM.", correctQuestion: "What time does the train leave?", clue: "What time", translation: "El tren sale a las 9 AM.", explanation: "'At 9 AM' es una hora precisa, lo que requiere usar 'What time' + 'does'." },
+      { id: 60, answer: "She goes to the supermarket because she needs food.", correctQuestion: "Why does she go to the supermarket?", clue: "Why", translation: "Ella va al supermercado porque necesita comida.", explanation: "Para indagar sobre la motivación o causa ('because...'), emplea 'Why'." },
+      { id: 61, answer: "No, they don't. They don't drink coffee.", correctQuestion: "Do they drink coffee?", clue: "Do", translation: "No, ellos no toman café.", explanation: "Inicia la pregunta directa en presente simple con el auxiliar 'Do'." },
+      { id: 62, answer: "He prefers tea over coffee.", correctQuestion: "Which do you prefer, tea or coffee?", clue: "Which", translation: "Él prefiere el té sobre el café.", explanation: "Al dar una opción selectiva, se usa el pronombre interrogativo 'Which'." },
+      { id: 63, answer: "Yes, we do. We walk to work every day.", correctQuestion: "Do you walk to work every day?", clue: "Do", translation: "Sí, caminamos al trabajo todos los días.", explanation: "Usa 'Do you' para interrogar sobre hábitos compartidos." },
+      { id: 64, answer: "My sister reads romantic novels.", correctQuestion: "What does your sister read?", clue: "What", translation: "Mi hermana lee novelas románticas.", explanation: "Pregunta por el tipo de material de lectura usando 'What' + 'does' + singular." },
+      { id: 65, answer: "He washes his car on Sundays.", correctQuestion: "When does he wash his car?", clue: "When", translation: "Él lava su carro los domingos.", explanation: "Usa 'When' para indagar sobre el día de limpieza." },
+      { id: 66, answer: "They practice piano in the afternoon.", correctQuestion: "When do they practice piano?", clue: "When", translation: "Ellos practican piano por la tarde.", explanation: "Para un momento específico del día, emplea la partícula 'When'." },
+      { id: 67, answer: "No, she doesn't. She doesn't like spicy food.", correctQuestion: "Does she like spicy food?", clue: "Does", translation: "No, a ella no le gusta la comida picante.", explanation: "Usa el auxiliar de tercera persona 'Does' más la forma base 'like'." },
+      { id: 68, answer: "We take the bus because it is fast.", correctQuestion: "Why do you take the bus?", clue: "Why", translation: "Tomamos el autobús porque es rápido.", explanation: "El conector de causa 'because' siempre responde a la pregunta 'Why'." },
+      { id: 69, answer: "He calls his parents every Sunday.", correctQuestion: "How often does he call his parents?", clue: "How often", translation: "Él llama a sus padres todos los domingos.", explanation: "'Every Sunday' representa una frecuencia recurrente, por lo que usamos 'How often'." },
+      { id: 70, answer: "Yes, I do. I play video games.", correctQuestion: "Do you play video games?", clue: "Do", translation: "Sí, juego videojuegos.", explanation: "Usa la confirmación básica de actividad 'Do you'." },
+      { id: 71, answer: "They study in the kitchen.", correctQuestion: "Where do they study?", clue: "Where", translation: "Ellos estudian en la cocina.", explanation: "Un lugar dentro de la casa ('in the kitchen') requiere la pregunta 'Where'." },
+      { id: 72, answer: "She speaks Spanish at home.", correctQuestion: "What language does she speak at home?", clue: "What language", translation: "Ella habla español en casa.", explanation: "Para identificar un idioma específico, empleamos la frase 'What language'." },
+      { id: 73, answer: "No, he doesn't. He doesn't play soccer.", correctQuestion: "Does he play soccer?", clue: "Does", translation: "No, él no juega fútbol.", explanation: "Auxiliar 'Does' para la tercera persona masculina singular 'he'." },
+      { id: 74, answer: "They work in a large department store.", correctQuestion: "Where do they work?", clue: "Where", translation: "Ellos trabajan en una gran tienda departamental.", explanation: "Para saber la ubicación del trabajo de 'they', iniciamos con 'Where'." },
+      { id: 75, answer: "Yes, she does. She has a red bicycle.", correctQuestion: "Does she have a red bicycle?", clue: "Does", translation: "Sí, ella tiene una bicicleta roja.", explanation: "La posesión en tercera persona se pregunta con 'Does' y el verbo base 'have'." },
+      { id: 76, answer: "We clean our room on Saturday mornings.", correctQuestion: "When do you clean your room?", clue: "When", translation: "Limpiamos nuestra habitación los sábados por la mañana.", explanation: "Usa 'When' para consultar sobre la rutina semanal de aseo." },
+      { id: 77, answer: "He plays guitar in a rock band.", correctQuestion: "What instrument does he play?", clue: "What instrument", translation: "Él toca la guitarra en una banda de rock.", explanation: "Para ser específicos sobre el instrumento que toca, iniciamos con 'What instrument'." },
+      { id: 78, answer: "No, they don't. They don't live in Canada.", correctQuestion: "Do they live in Canada?", clue: "Do", translation: "No, ellos no viven en Canadá.", explanation: "Usa el auxiliar 'Do' para la tercera persona del plural 'they'." },
+      { id: 79, answer: "She wakes up at 6 AM.", correctQuestion: "What time does she wake up?", clue: "What time", translation: "Ella se despierta a las 6 AM.", explanation: "La respuesta indica un punto preciso en el reloj, por lo que usamos 'What time'." },
+      { id: 80, answer: "I study biology because I love animals.", correctQuestion: "Why do you study biology?", clue: "Why", translation: "Estudio biología porque amo los animales.", explanation: "Iniciamos con 'Why' debido a la estructura explicativa de la respuesta." },
+      { id: 81, answer: "Yes, he does. He loves learning languages.", correctQuestion: "Does he love learning languages?", clue: "Does", translation: "Sí, a él le encanta aprender idiomas.", explanation: "Interrogación directa usando 'Does' y verbo base 'love'." },
+      { id: 82, answer: "They travel by plane.", correctQuestion: "How do they travel?", clue: "How", translation: "Ellos viajan en avión.", explanation: "Para preguntar sobre el método de transporte ('by plane'), empleamos 'How'." },
+      { id: 83, answer: "She likes comedies.", correctQuestion: "What kind of movies does she like?", clue: "What kind", translation: "A ella le gustan las comedias.", explanation: "Para tipos o géneros de cosas, usamos la estructura 'What kind of...'" },
+      { id: 84, answer: "No, we don't. We don't drink soda.", correctQuestion: "Do you drink soda?", clue: "Do", translation: "No, nosotros no tomamos refresco.", explanation: "Pregunta cerrada para segunda persona plural con 'Do'." },
+      { id: 85, answer: "He studies every single night.", correctQuestion: "How often does he study?", clue: "How often", translation: "Él estudia absolutamente todas las noches.", explanation: "La frase 'every single night' expresa constancia y requiere 'How often'." },
+      { id: 86, answer: "They eat lunch at 1 PM.", correctQuestion: "What time do they eat lunch?", clue: "What time", translation: "Ellos almuerzan a la 1 PM.", explanation: "Preguntamos el momento exacto del almuerzo con 'What time'." },
+      { id: 87, answer: "Yes, I do. I play the violin.", correctQuestion: "Do you play the violin?", clue: "Do", translation: "Sí, yo toco el violín.", explanation: "Una pregunta general de sí/no usando 'Do you'." },
+      { id: 88, answer: "She lives on Main Street.", correctQuestion: "Where does she live?", clue: "Where", translation: "Ella vive en la calle Main.", explanation: "Las direcciones urbanas de residencia requieren 'Where' + 'does' + 'she'." },
+      { id: 89, answer: "He washes the dishes after dinner.", correctQuestion: "When does he wash the dishes?", clue: "When", translation: "Él lava los platos después de la cena.", explanation: "'After dinner' indica un momento en la secuencia diaria, requiriendo 'When'." },
+      { id: 90, answer: "They visit their grandparents on Sundays.", correctQuestion: "When do they visit their grandparents?", clue: "When", translation: "Ellos visitan a sus abuelos los domingos.", explanation: "Los domingos indican tiempo, por lo cual usamos la interrogativa 'When'." },
+      { id: 91, answer: "No, she doesn't. She doesn't have any pets.", correctQuestion: "Does she have any pets?", clue: "Does", translation: "No, ella no tiene ninguna mascota.", explanation: "Usa 'Does' y 'have' para confirmar la tenencia de mascotas en tercera persona singular." },
+      { id: 92, answer: "We watch football on TV.", correctQuestion: "What do you watch on TV?", clue: "What", translation: "Vemos fútbol en la televisión.", explanation: "Para indagar por el objeto de entretenimiento, usamos 'What' + 'do you'." },
+      { id: 93, answer: "He works late because he is busy.", correctQuestion: "Why does he work late?", clue: "Why", translation: "Él trabaja hasta tarde porque está ocupado.", explanation: "Para preguntar por la razón de su horario extendido, iniciamos con 'Why'." },
+      { id: 94, answer: "They study English twice a week.", correctQuestion: "How often do they study English?", clue: "How often", translation: "Ellos estudian inglés dos veces a la semana.", explanation: "'Twice a week' mide la recurrencia, por lo que empleamos 'How often'." },
+      { id: 95, answer: "Yes, I do. I love Italian ice cream.", correctQuestion: "Do you love Italian ice cream?", clue: "Do", translation: "Sí, me encanta el helado italiano.", explanation: "Confirmación de gusto personal que se formula con 'Do you'." },
+      { id: 96, answer: "She teaches piano to kids.", correctQuestion: "Who does she teach piano to?", clue: "Who", translation: "Ella enseña piano a niños.", explanation: "Para saber quiénes son los recibidores de la acción, usamos 'Who' al inicio." },
+      { id: 97, answer: "No, he doesn't. He doesn't drive.", correctQuestion: "Does he drive?", clue: "Does", translation: "No, él no conduce.", explanation: "Pregunta directa de confirmación sobre la habilidad de conducir para 'he'." },
+      { id: 98, answer: "They buy books online.", correctQuestion: "Where do they buy books?", clue: "Where", translation: "Ellos compran libros en línea.", explanation: "'Online' actúa como el sitio de compra, requiriendo 'Where'." },
+      { id: 99, answer: "Yes, she does. She works in an office.", correctQuestion: "Does she work in an office?", clue: "Does", translation: "Sí, ella trabaja en una oficina.", explanation: "Pregunta cerrada para el hábito laboral de 'she' usando 'Does'." },
+      { id: 100, answer: "I wake up late on weekends.", correctQuestion: "When do you wake up late?", clue: "When", translation: "Me despierto tarde los fines de semana.", explanation: "'On weekends' representa el momento temporal, requiriendo el uso de 'When'." }
+    ];
+
+    // Shadowing Prompts - exactly 100 high quality A1 prompts
+    const shadowPrompts = [
+      { text: "Do you like drinking coffee in the morning?", translation: "¿Te gusta tomar café por la mañana?" },
+      { text: "Where does your teacher live?", translation: "¿Dónde vive tu profesor/a?" },
+      { text: "Does she study English every day?", translation: "¿Ella estudia inglés todos los días?" },
+      { text: "What time do you go to bed?", translation: "¿A qué hora te vas a la cama?" },
+      { text: "They don't speak French very well.", translation: "Ellos no hablan francés muy bien." },
+      { text: "Do they have any brothers or sisters?", translation: "Tienen hermanos o hermanas?" },
+      { text: "He goes to school by bus.", translation: "Él va a la escuela en autobús." },
+      { text: "We do not listen to heavy metal music.", translation: "No escuchamos música de heavy metal." },
+      { text: "Does he play tennis on Saturdays?", translation: "¿Él juega tenis los sábados?" },
+      { text: "What do they usually eat for breakfast?", translation: "¿Qué suelen comer ellos para el desayuno?" },
+      { text: "She works in a big office building.", translation: "Ella trabaja en un gran edificio de oficinas." },
+      { text: "Do you want to practice English with me?", translation: "¿Quieres practicar inglés conmigo?" },
+      { text: "My sister does not watch horror movies.", translation: "Mi hermana no ve películas de terror." },
+      { text: "Where do they buy fresh bread?", translation: "¿Dónde compran pan fresco?" },
+      { text: "What time does the train arrive?", translation: "¿A qué hora llega el tren?" },
+      { text: "We live in a small apartment.", translation: "Vivimos en un apartamento pequeño." },
+      { text: "Does your father drive a red car?", translation: "¿Tu padre conduce un carro rojo?" },
+      { text: "I do not like drinking cold tea.", translation: "No me gusta tomar té frío." },
+      { text: "How often do you visit your grandparents?", translation: "¿Qué tan seguido visitas a tus abuelos?" },
+      { text: "They play soccer in the park.", translation: "Ellos juegan fútbol en el parque." },
+      { text: "Does she want to go to Spain?", translation: "¿Ella quiere ir a España?" },
+      { text: "Who does he work with at the bank?", translation: "¿Con quién trabaja él en el banco?" },
+      { text: "We always wash our hands before dinner.", translation: "Siempre nos lavamos las manos antes de cenar." },
+      { text: "Do you understand this grammar lesson?", translation: "¿Entiendes esta lección de gramática?" },
+      { text: "The cat sleeps under the table.", translation: "El gato duerme debajo de la mesa." },
+      { text: "She plays the violin beautifully.", translation: "Ella toca el violín de manera hermosa." },
+      { text: "Why do you want to learn English?", translation: "¿Por qué quieres aprender inglés?" },
+      { text: "They usually walk to school together.", translation: "Ellos suelen caminar juntos a la escuela." },
+      { text: "Does it rain a lot during winter?", translation: "¿Llueve mucho durante el invierno?" },
+      { text: "I eat fresh fruit every single day.", translation: "Como fruta fresca absolutamente todos los días." },
+      { text: "What kind of music do you prefer?", translation: "¿Qué tipo de música prefieres?" },
+      { text: "He does not play video games.", translation: "Él no juega videojuegos." },
+      { text: "Where do they meet their friends?", translation: "¿Dónde se reúnen con sus amigos?" },
+      { text: "She loves reading romantic stories.", translation: "A ella le encanta leer historias románticas." },
+      { text: "Do you have any pets at home?", translation: "¿Tienes alguna mascota en casa?" },
+      { text: "We cook a special dinner on Sundays.", translation: "Cocinamos una cena especial los domingos." },
+      { text: "How do they travel to work?", translation: "¿Cómo viajan ellos al trabajo?" },
+      { text: "Does he speak Spanish at work?", translation: "¿Él habla español en el trabajo?" },
+      { text: "The school opens at eight o'clock.", translation: "La escuela abre a las ocho en punto." },
+      { text: "I study at the library every afternoon.", translation: "Estudio en la biblioteca todas las tardes." },
+      { text: "Do they like Italian food?", translation: "¿A ellos les gusta la comida italiana?" },
+      { text: "My mother cooks delicious pasta.", translation: "Mi madre cocina una pasta deliciosa." },
+      { text: "He does not have any free time today.", translation: "Él no tiene tiempo libre hoy." },
+      { text: "Where does she buy her clothes?", translation: "¿Dónde compra ella su ropa?" },
+      { text: "What time do you usually wake up?", translation: "¿A qué hora te despiertas usualmente?" },
+      { text: "We listen to the radio in the morning.", translation: "Escuchamos la radio por la mañana." },
+      { text: "Does your dog bark at night?", translation: "¿Tu perro ladra de noche?" },
+      { text: "They want to buy a new house.", translation: "Ellos quieren comprar una casa nueva." },
+      { text: "How many languages do you speak?", translation: "¿Cuántos idiomas hablas?" },
+      { text: "She does not live in London anymore.", translation: "Ella ya no vive en Londres." },
+      { text: "Do you study English online?", translation: "¿Estudias inglés en línea?" },
+      { text: "He washes his car every Sunday.", translation: "Él lava su carro cada domingo." },
+      { text: "Where do you work during the week?", translation: "¿Dónde trabajas durante la semana?" },
+      { text: "She enjoys listening to classical music.", translation: "Ella disfruta escuchar música clásica." },
+      { text: "What time does the movie start?", translation: "¿A qué hora comienza la película?" },
+      { text: "We do not have a television.", translation: "Nosotros no tenemos televisión." },
+      { text: "Does he understand Spanish?", translation: "¿Él entiende español?" },
+      { text: "I drink orange juice for breakfast.", translation: "Bebo jugo de naranja para el desayuno." },
+      { text: "How often does it snow here?", translation: "¿Qué tan seguido nieva aquí?" },
+      { text: "They clean their house on Saturdays.", translation: "Ellos limpias su casa los sábados." },
+      { text: "Does she play the piano well?", translation: "¿Ella toca el piano bien?" },
+      { text: "Who is your favorite teacher?", translation: "¿Quién es tu profesor favorito?" },
+      { text: "We go to the gym on Mondays.", translation: "Vamos al gimnasio los lunes." },
+      { text: "Do they study science at school?", translation: "¿Ellos estudian ciencias en la escuela?" },
+      { text: "My father works in a hospital.", translation: "Mi padre trabaja en un hospital." },
+      { text: "She does not eat spicy food.", translation: "Ella no come comida picante." },
+      { text: "Where do you keep your books?", translation: "¿Dónde guardas tus libros?" },
+      { text: "What time does the library close?", translation: "¿A qué hora cierra la biblioteca?" },
+      { text: "We do not travel in winter.", translation: "Nosotros no viajamos en invierno." },
+      { text: "Does he want some water?", translation: "¿Él quiere un poco de agua?" },
+      { text: "I love swimming in the ocean.", translation: "Me encanta nadar en el océano." },
+      { text: "How do you spell your name?", translation: "¿Cómo deletreas tu nombre?" },
+      { text: "They do not live near here.", translation: "Ellos no viven cerca de aquí." },
+      { text: "Does she sing in a band?", translation: "¿Ella canta en una banda?" },
+      { text: "Who lives in that big house?", translation: "¿Quién vive en esa casa grande?" },
+      { text: "We walk our dog in the park.", translation: "Paseamos a nuestro perro en el parque." },
+      { text: "Do you have any money?", translation: "¿Tienes algo de dinero?" },
+      { text: "My brother plays soccer on weekends.", translation: "Mi hermano juega fútbol los fines de semana." },
+      { text: "She does not speak Japanese.", translation: "Ella no habla japonés." },
+      { text: "Where do they study English?", translation: "¿Dónde estudian ellos inglés?" },
+      { text: "What do you want to eat?", translation: "¿Qué quieres comer?" },
+      { text: "We watch the news at night.", translation: "Vemos las noticias por la noche." },
+      { text: "Does he like reading books?", translation: "A él le gusta leer libros?" },
+      { text: "I do not use a computer.", translation: "No uso computadora." },
+      { text: "How often do you cook dinner?", translation: "¿Qué tan seguido cocinas la cena?" },
+      { text: "They travel to Europe every summer.", translation: "Ellos viajan a Europa cada verano." },
+      { text: "Does she have a blue bicycle?", translation: "¿Ella tiene una bicicleta azul?" },
+      { text: "Who makes breakfast in your house?", translation: "¿Quién hace el desayuno en tu casa?" },
+      { text: "We play cards on Friday evenings.", transition: "Jugamos cartas los viernes por la noche." },
+      { text: "Do you write letters to friends?", translation: "¿Escribes cartas a tus amigos?" },
+      { text: "He does not work on Sundays.", translation: "Él no trabaja los domingos." },
+      { text: "Where do you want to go?", translation: "¿A dónde quieres ir?" },
+      { text: "She visits her parents every weekend.", translation: "Ella visita a sus padres cada fin de semana." },
+      { text: "What time do you eat lunch?", translation: "¿A qué hora almuerzas?" },
+      { text: "We drink water when we run.", translation: "Bebemos agua cuando corremos." },
+      { text: "Does he drive a clean truck?", translation: "¿Él conduce un camión limpio?" },
+      { text: "I walk to work every morning.", translation: "Camino al trabajo todas las mañanas." },
+      { text: "How does she travel to school?", translation: "¿Cómo viaja ella a la escuela?" },
+      { text: "They do not speak Chinese.", translation: "Ellos no hablan chino." },
+      { text: "Do you want some tea?", translation: "¿Quieres un poco de té?" }
+    ];
+    let shadowIndex = 0;
+
+    // Web Speech API references
+    const synth = window.speechSynthesis;
+    let shadowRecognition = null;
+    let practiceRecognition = null;
+    
+    // Initialize speech recognizers if Web Speech API is supported
+    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      
+      // Recognition 1: Shadowing Lab
+      shadowRecognition = new SpeechRecognition();
+      shadowRecognition.continuous = false;
+      shadowRecognition.interimResults = false;
+      shadowRecognition.lang = 'en-US';
+
+      // Recognition 2: Reverse Questions Dictation
+      practiceRecognition = new SpeechRecognition();
+      practiceRecognition.continuous = false;
+      practiceRecognition.interimResults = false;
+      practiceRecognition.lang = 'en-US';
+    }
+
+    // ON LOAD INITIALIZATION
+    window.onload = function() {
+      initFirebaseAndAuth();
+      resetAndReshufflePrompts();
+      resetAndReshuffleShadows();
+      setupAudioRecognition();
+      setupDictationRecognition();
+    };
+
+    // CLOUD SYNCHRONIZATION VIA FIRESTORE (Safe Rules Compliant)
+    async function initFirebaseAndAuth() {
+      const syncStatus = document.getElementById('sync-status');
+      const syncIndicator = document.getElementById('sync-indicator');
+      
+      // Safety wait loop for custom cloud system initialization
+      let retries = 5;
+      while (!window.firebaseModule && retries > 0) {
+        await new Promise(resolve => setTimeout(resolve, 500));
+        retries--;
+      }
+
+      if (!window.firebaseModule) {
+        if (syncStatus) syncStatus.innerText = "Sincronización local (Fuera de línea)";
+        if (syncIndicator) syncIndicator.className = "w-2.5 h-2.5 rounded-full bg-slate-400";
+        return;
+      }
+
+      const { initializeApp, getAuth, signInWithCustomToken, signInAnonymously, onAuthStateChanged, getFirestore } = window.firebaseModule;
+
+      try {
+        // Safe configuration retrieval
+        if (typeof __firebase_config !== 'undefined' && __firebase_config) {
+          const firebaseConfig = JSON.parse(__firebase_config);
+          firebaseApp = initializeApp(firebaseConfig);
+          auth = getAuth(firebaseApp);
+          db = getFirestore(firebaseApp);
+          appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+
+          // Authenticate FIRST
+          if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+            await signInWithCustomToken(auth, __initial_auth_token);
+          } else {
+            await signInAnonymously(auth);
+          }
+
+          // Listen to authentication changes safely
+          onAuthStateChanged(auth, (user) => {
+            if (user) {
+              loadUserCloudProgress(user.uid);
+            } else {
+              if (syncStatus) {
+                syncStatus.innerText = "Usuario desconectado.";
+              }
+              if (syncIndicator) {
+                syncIndicator.className = "w-2.5 h-2.5 rounded-full bg-red-500";
+              }
+            }
+          });
+        } else {
+          if (syncStatus) syncStatus.innerText = "Modo Local (Sin base de datos)";
+          if (syncIndicator) syncIndicator.className = "w-2.5 h-2.5 rounded-full bg-slate-400";
+        }
+      } catch (err) {
+        console.error("Firebase init failed:", err);
+        if (syncStatus) syncStatus.innerText = "Sincronización inactiva";
+        if (syncIndicator) syncIndicator.className = "w-2.5 h-2.5 rounded-full bg-red-500";
+      }
+    }
+
+    // LOAD PROGRESS & GEMINI KEY FROM SECURE PATH (RULE 1 Compliant)
+    async function loadUserCloudProgress(userId) {
+      if (!db) return;
+      const { doc, getDoc } = window.firebaseModule;
+      const syncStatus = document.getElementById('sync-status');
+      const syncIndicator = document.getElementById('sync-indicator');
+      
+      try {
+        // Path matches: /artifacts/{appId}/users/{userId}/{collectionName}
+        const docRef = doc(db, 'artifacts', appId, 'users', userId, 'user_state', 'profile');
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          state.score = data.score || 0;
+          state.streak = data.streak || 0;
+          state.currentPracticeIdx = data.currentPracticeIdx || 0;
+          windowGeminiApiKey = data.geminiApiKey || "";
+
+          updateScoreboard();
+
+          // Refresh input elements
+          const keyInput = document.getElementById('gemini-key-input');
+          const keyBadge = document.getElementById('key-badge');
+          const removeBtn = document.getElementById('remove-key-btn');
+          const useGeminiCheck = document.getElementById('use-gemini-tts');
+
+          if (windowGeminiApiKey) {
+            keyInput.value = windowGeminiApiKey;
+            keyBadge.innerText = "Clave Activa (Voces Premium Disponibles)";
+            keyBadge.className = "text-[11px] bg-emerald-100 text-emerald-800 font-bold px-2.5 py-0.5 rounded-full animate-pulse";
+            removeBtn.classList.remove('hidden');
+            useGeminiCheck.checked = true;
+          } else {
+            keyInput.value = "";
+            keyBadge.innerText = "Sin Clave (Voz local activa)";
+            keyBadge.className = "text-[11px] bg-slate-100 text-slate-500 font-bold px-2.5 py-0.5 rounded-full";
+            removeBtn.classList.add('hidden');
+            useGeminiCheck.checked = false;
+          }
+
+          // Reload current progressive prompt
+          loadPracticePrompt(state.currentPracticeIdx);
+
+          if (syncStatus) {
+            syncStatus.innerText = "Sincronizado";
+          }
+          if (syncIndicator) {
+            syncIndicator.className = "w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-sm";
+          }
+        } else {
+          // If profile does not exist yet, initialize it
+          syncStateToCloud();
+        }
+      } catch (e) {
+        console.error("Cloud loading error:", e);
+        if (syncStatus) syncStatus.innerText = "Error de carga";
+        if (syncIndicator) syncIndicator.className = "w-2.5 h-2.5 rounded-full bg-red-400";
+      }
+    }
+
+    // SAVE/SYNC STATE SAFELY (RULE 1 & RULE 3 Compliant)
+    async function syncStateToCloud() {
+      if (!db || !auth || !auth.currentUser) return;
+      const { doc, setDoc } = window.firebaseModule;
+      const userId = auth.currentUser.uid;
+      const syncStatus = document.getElementById('sync-status');
+      const syncIndicator = document.getElementById('sync-indicator');
+      
+      try {
+        const docRef = doc(db, 'artifacts', appId, 'users', userId, 'user_state', 'profile');
+        
+        await setDoc(docRef, {
+          score: state.score,
+          streak: state.streak,
+          currentPracticeIdx: state.currentPracticeIdx,
+          geminiApiKey: windowGeminiApiKey || "",
+          updatedAt: new Date().toISOString()
+        }, { merge: true });
+
+        if (syncStatus) {
+          syncStatus.innerText = "Guardado y sincronizado";
+        }
+        if (syncIndicator) {
+          syncIndicator.className = "w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-sm";
+        }
+      } catch (err) {
+        console.error("Cloud saving error:", err);
+        if (syncStatus) syncStatus.innerText = "Error al sincronizar";
+        if (syncIndicator) syncIndicator.className = "w-2.5 h-2.5 rounded-full bg-red-400";
+      }
+    }
+
+    // MODAL VISIBILITY CONTROLLER
+    function toggleKeyModal() {
+      const modal = document.getElementById('key-modal');
+      modal.classList.toggle('hidden');
+    }
+
+    // SAVE AND REMOVE GEMINI API KEY LOGIC
+    function saveGeminiApiKey() {
+      const inputVal = document.getElementById('gemini-key-input').value.trim();
+      const badge = document.getElementById('key-badge');
+      const removeBtn = document.getElementById('remove-key-btn');
+      const useGeminiCheck = document.getElementById('use-gemini-tts');
+
+      if (!inputVal) {
+        showMicWarning("Por favor ingresa una clave de API válida.");
+        return;
+      }
+
+      windowGeminiApiKey = inputVal;
+      badge.innerText = "Clave Guardada (Voces Premium Listas)";
+      badge.className = "text-[11px] bg-emerald-100 text-emerald-800 font-bold px-2.5 py-0.5 rounded-full animate-pulse";
+      removeBtn.classList.remove('hidden');
+      useGeminiCheck.checked = true;
+
+      // Persist to cloud securely and automatically close modal after saving
+      syncStateToCloud();
+      setTimeout(() => {
+        toggleKeyModal();
+      }, 500);
+    }
+
+    function removeGeminiApiKey() {
+      const input = document.getElementById('gemini-key-input');
+      const badge = document.getElementById('key-badge');
+      const removeBtn = document.getElementById('remove-key-btn');
+      const useGeminiCheck = document.getElementById('use-gemini-tts');
+
+      windowGeminiApiKey = "";
+      input.value = "";
+      badge.innerText = "Sin Clave (Voz local activa)";
+      badge.className = "text-[11px] bg-slate-100 text-slate-500 font-bold px-2.5 py-0.5 rounded-full";
+      removeBtn.classList.add('hidden');
+      useGeminiCheck.checked = false;
+
+      // Sync updated data
+      syncStateToCloud();
+    }
+
+    function toggleKeyVisibility() {
+      const input = document.getElementById('gemini-key-input');
+      const icon = document.getElementById('key-visibility-icon');
+      if (input.type === "password") {
+        input.type = "text";
+        icon.className = "fa-solid fa-eye-slash text-xs";
+      } else {
+        input.type = "password";
+        icon.className = "fa-solid fa-eye text-xs";
+      }
+    }
+
+    // Fisher-Yates Random Shuffling Algorithm
+    function shuffleExercises(array) {
+      let currentIndex = array.length, randomIndex;
+      const shuffled = [...array];
+      while (currentIndex !== 0) {
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+        [shuffled[currentIndex], shuffled[randomIndex]] = [shuffled[randomIndex], shuffled[currentIndex]];
+      }
+      return shuffled;
+    }
+
+    function resetAndReshufflePrompts() {
+      state.shuffledPrompts = shuffleExercises(rawPracticePrompts);
+      loadPracticePrompt(0);
+    }
+
+    // Shuffle shadowing elements
+    function resetAndReshuffleShadows() {
+      state.shuffledShadows = shuffleExercises(shadowPrompts);
+      loadShadowPrompt(0);
+    }
+
+    // TAB SYSTEM SWITCHING
+    function switchTab(tabName) {
+      // Clean dictations/recording states if switching tabs
+      if (state.isDictating && practiceRecognition) {
+        practiceRecognition.stop();
+      }
+      if (state.isRecording && shadowRecognition) {
+        shadowRecognition.stop();
+      }
+
+      state.currentTab = tabName;
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('bg-white', 'text-teal-700', 'shadow-sm');
+        btn.classList.add('text-slate-600', 'hover:text-slate-900');
+      });
+      document.querySelectorAll('.tab-content').forEach(content => {
+        content.classList.add('hidden');
+      });
+
+      // Show active
+      const activeTabBtn = document.getElementById(`tab-${tabName}`);
+      activeTabBtn.classList.remove('text-slate-600', 'hover:text-slate-900');
+      activeTabBtn.classList.add('bg-white', 'text-teal-700', 'shadow-sm');
+      
+      document.getElementById(`section-${tabName}`).classList.remove('hidden');
+    }
+
+    // SOUND SYNTHESIZER: Play sweet Web Audio API sounds on check
+    function playSoundEffect(type) {
+      try {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContext) return;
+        const ctx = new AudioContext();
+        
+        if (type === 'correct') {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sine';
+          
+          osc.frequency.setValueAtTime(523.25, ctx.currentTime); // C5
+          osc.frequency.setValueAtTime(659.25, ctx.currentTime + 0.12); // E5
+          osc.frequency.setValueAtTime(783.99, ctx.currentTime + 0.24); // G5
+          
+          gain.gain.setValueAtTime(0.12, ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.45);
+          
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start();
+          osc.stop(ctx.currentTime + 0.5);
+        } else if (type === 'incorrect') {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'triangle';
+          
+          osc.frequency.setValueAtTime(180, ctx.currentTime);
+          osc.frequency.linearRampToValueAtTime(120, ctx.currentTime + 0.2);
+          
+          gain.gain.setValueAtTime(0.15, ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.25);
+          
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start();
+          osc.stop(ctx.currentTime + 0.3);
+        }
+      } catch (e) {
+        // Suppress audio blocks by browser policy
+      }
+    }
+
+    // PRACTICE LOGIC: REVERSE QUESTIONING
+    function loadPracticePrompt(index) {
+      if (index >= state.shuffledPrompts.length) {
+        index = 0; // wrap around for practice
+      }
+      state.currentPracticeIdx = index;
+      const prompt = state.shuffledPrompts[index];
+      state.currentPracticePrompt = prompt;
+
+      // Update progress HUD
+      document.getElementById('practice-progress-txt').innerText = `Pregunta ${index + 1} de ${state.shuffledPrompts.length}`;
+      const progressPercent = ((index + 1) / state.shuffledPrompts.length) * 100;
+      document.getElementById('practice-progress-bar').style.width = `${progressPercent}%`;
+
+      // Update targeted answer text
+      document.getElementById('target-answer').innerText = prompt.answer;
+      
+      // Load Spanish translation but keep it hidden initially
+      document.getElementById('target-translation-text').innerText = prompt.translation;
+      hideTranslation();
+
+      // Reset feedback and visual elements
+      document.getElementById('feedback-area').classList.add('hidden');
+      document.getElementById('explanation-box').classList.add('hidden');
+      document.getElementById('ai-diagnostic-card').classList.add('hidden');
+      document.getElementById('ai-diagnostic-btn').classList.add('hidden');
+      
+      const typeInput = document.getElementById('type-input');
+      typeInput.value = '';
+      typeInput.disabled = false;
+      
+      // Update the placeholder directly to act as the clue block
+      typeInput.placeholder = `Empieza con "${prompt.clue}"...`;
+      typeInput.focus();
+      
+      // Toggle button states
+      document.getElementById('check-question-btn').classList.remove('hidden');
+      document.getElementById('next-question-btn').classList.add('hidden');
+      document.getElementById('reveal-question-btn').classList.remove('hidden');
+
+      // Update type badge
+      const tag = document.getElementById('exercise-type-tag');
+      if (prompt.isAiGenerated) {
+        tag.innerText = "✨ Diseñado por Gemini IA";
+        tag.className = "bg-purple-100 text-purple-800 text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-wider animate-pulse";
+      } else {
+        tag.innerText = "Preguntas Inversas (Orden Aleatorio)";
+        tag.className = "bg-amber-100 text-amber-800 text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-wider";
+      }
+    }
+
+    // Toggle Spanish Translation Helper
+    function toggleTranslation() {
+      const box = document.getElementById('target-translation-box');
+      if (box.classList.contains('hidden')) {
+        box.classList.remove('hidden');
+        state.translationVisible = true;
+      } else {
+        box.classList.add('hidden');
+        state.translationVisible = false;
+      }
+    }
+
+    function hideTranslation() {
+      document.getElementById('target-translation-box').classList.add('hidden');
+      state.translationVisible = false;
+    }
+
+    // Automatically fill and show answer
+    function revealCorrectAnswer() {
+      const typeInput = document.getElementById('type-input');
+      typeInput.value = state.currentPracticePrompt.correctQuestion;
+      
+      state.streak = 0; // reset streak for help
+      updateScoreboard();
+
+      // Automatically trigger a muted check to explain grammar details
+      checkAnswer(true);
+    }
+
+    // Handle Enter Key inside textbox
+    function handleKeyPress(event) {
+      if (event.key === 'Enter') {
+        if (document.getElementById('check-question-btn').classList.contains('hidden')) {
+          nextQuestion();
+        } else {
+          checkAnswer();
+        }
+      }
+    }
+
+    // COMPARE ANSWERS
+    function checkAnswer(forceMuteAudio = false) {
+      const studentInput = document.getElementById('type-input');
+      const studentAnswer = studentInput.value.trim();
+
+      if (!studentAnswer) {
+        showCustomFeedback(false, "¡Escribe tu pregunta primero!");
+        return;
+      }
+
+      const cleanStudent = cleanString(studentAnswer);
+      const cleanCorrect = cleanString(state.currentPracticePrompt.correctQuestion);
+
+      const isCorrect = (cleanStudent === cleanCorrect);
+
+      if (isCorrect) {
+        state.score += 10;
+        state.streak += 1;
+        updateScoreboard();
+        showCustomFeedback(true, "¡Increíble! ¡Es correcto!");
+        document.getElementById('ai-diagnostic-btn').classList.add('hidden');
+        
+        if (!forceMuteAudio) playSoundEffect('correct');
+      } else {
+        state.streak = 0; // Reset streak on error
+        updateScoreboard();
+        showCustomFeedback(false, `¡Sigue intentándolo! La pregunta objetivo era: "${state.currentPracticePrompt.correctQuestion}"`);
+        
+        // Show smart AI diagnostic option if key is available
+        if (windowGeminiApiKey) {
+          document.getElementById('ai-diagnostic-btn').classList.remove('hidden');
+        }
+        
+        if (!forceMuteAudio) playSoundEffect('incorrect');
+      }
+
+      // Disable further input until next question
+      studentInput.disabled = true;
+
+      // Show Grammar Explanation
+      document.getElementById('explanation-txt').innerText = state.currentPracticePrompt.explanation;
+      document.getElementById('explanation-box').classList.remove('hidden');
+
+      // Toggle main check buttons
+      document.getElementById('check-question-btn').classList.add('hidden');
+      document.getElementById('reveal-question-btn').classList.add('hidden');
+      document.getElementById('next-question-btn').classList.remove('hidden');
+
+      // Sync updated score to DB
+      syncStateToCloud();
+    }
+
+    function cleanString(str) {
+      return str.toLowerCase()
+                .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"")
+                .replace(/\s+/g," ")
+                .trim();
+    }
+
+    // CUSTOM FEEDBACK SYSTEM
+    function showCustomFeedback(isSuccess, titleMsg) {
+      const fbArea = document.getElementById('feedback-area');
+      const fbIcon = document.getElementById('feedback-icon');
+      const fbTitle = document.getElementById('feedback-title');
+      const fbMsg = document.getElementById('feedback-msg');
+
+      fbArea.classList.remove('hidden');
+
+      if (isSuccess) {
+        fbIcon.className = "w-12 h-12 rounded-2xl flex items-center justify-center text-white text-lg bg-gradient-to-r from-emerald-400 to-teal-500 animate-bounce shrink-0";
+        fbIcon.innerHTML = `<i class="fa-solid fa-crown"></i>`;
+        fbTitle.innerText = "¡Excelente!";
+        fbTitle.className = "font-bold text-emerald-600 text-base";
+        fbMsg.innerText = titleMsg;
+      } else {
+        fbIcon.className = "w-12 h-12 rounded-2xl flex items-center justify-center text-white text-lg bg-gradient-to-r from-amber-400 to-orange-500 shrink-0";
+        fbIcon.innerHTML = `<i class="fa-solid fa-face-smile-wink"></i>`;
+        fbTitle.innerText = "¡Vamos a repasar!";
+        fbTitle.className = "font-bold text-amber-600 text-base";
+        fbMsg.innerText = titleMsg;
+      }
+    }
+
+    function skipQuestion() {
+      nextQuestion();
+    }
+
+    // PROGRESSIVE NAVIGATION
+    function nextQuestion() {
+      const nextIdx = state.currentPracticeIdx + 1;
+      loadPracticePrompt(nextIdx);
+      syncStateToCloud();
+    }
+
+    function resetPractice() {
+      resetAndReshufflePrompts();
+    }
+
+    // UPDATE SCOREBOARD STATS
+    function updateScoreboard() {
+      document.getElementById('global-score').innerText = state.score;
+      document.getElementById('global-streak').innerText = state.streak;
+    }
+
+    // PRACTICE DICTATION CONTROLLERS
+    function setupDictationRecognition() {
+      if (!practiceRecognition) return;
+
+      practiceRecognition.onstart = () => {
+        state.isDictating = true;
+        document.getElementById('dictate-btn').className = "bg-red-500 hover:bg-red-600 text-white w-14 h-14 rounded-2xl flex items-center justify-center shadow-md hover:scale-105 transition-all relative shrink-0 active:scale-95 duration-150";
+        document.getElementById('dictate-mic-icon').className = "fa-solid fa-microphone-lines text-xl text-white";
+        document.getElementById('dictate-pulse-ring').classList.remove('hidden');
+        document.getElementById('dictation-status-txt').classList.remove('hidden');
+      };
+
+      practiceRecognition.onend = () => {
+        state.isDictating = false;
+        document.getElementById('dictate-btn').className = "bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 text-indigo-600 w-14 h-14 rounded-2xl flex items-center justify-center shadow-md hover:scale-105 transition-all relative shrink-0 active:scale-95 duration-150";
+        document.getElementById('dictate-mic-icon').className = "fa-solid fa-microphone text-xl text-indigo-600";
+        document.getElementById('dictate-pulse-ring').classList.add('hidden');
+        document.getElementById('dictation-status-txt').classList.add('hidden');
+      };
+
+      practiceRecognition.onresult = (event) => {
+        let transcript = event.results[0][0].transcript;
+        if (transcript) {
+          transcript = transcript.trim();
+          transcript = transcript.charAt(0).toUpperCase() + transcript.slice(1);
+          if (!transcript.endsWith('?')) {
+            transcript += '?';
+          }
+          document.getElementById('type-input').value = transcript;
+        }
+      };
+
+      practiceRecognition.onerror = () => {
+        showMicWarning("No se pudo procesar el audio de dictado. ¡Por favor escribe manualmente!");
+      };
+    }
+
+    // Toggle Dictation
+    function toggleDictation() {
+      if (!practiceRecognition) {
+        showMicWarning("El dictado por voz no es compatible con este navegador. ¡Intenta usar Google Chrome!");
+        return;
+      }
+      
+      if (state.isDictating) {
+        practiceRecognition.stop();
+      } else {
+        if (state.isRecording && shadowRecognition) {
+          shadowRecognition.stop();
+        }
+        practiceRecognition.start();
+      }
+    }
+
+    function showMicWarning(message) {
+      const label = document.getElementById('mic-warning-message');
+      if (label) {
+        label.innerText = message;
+        label.className = "text-xs text-rose-500 font-bold mt-1 max-w-xs mx-auto animate-bounce";
+      }
+    }
+
+    // AUDIO PLAYBACK MANAGEMENT
+    function toggleAudioSettings() {
+      state.audioSettingsOpen = !state.audioSettingsOpen;
+      const content = document.getElementById('audio-settings-content');
+      const chevron = document.getElementById('settings-chevron');
+      if (state.audioSettingsOpen) {
+        content.classList.remove('hidden');
+        chevron.classList.add('rotate-180');
+      } else {
+        content.classList.add('hidden');
+        chevron.classList.remove('rotate-180');
+      }
+    }
+
+    function setSpeechRate(rate) {
+      state.speechRate = rate;
+      const slowBtn = document.getElementById('rate-slow');
+      const normBtn = document.getElementById('rate-normal');
+      
+      if (rate === 0.75) {
+        slowBtn.className = "flex-1 py-1 text-xs font-bold rounded-lg transition-all bg-white text-teal-700 shadow-sm";
+        normBtn.className = "flex-1 py-1 text-xs font-bold rounded-lg transition-all text-slate-600";
+        document.getElementById('shadow-speed-indicator').innerText = "Lento (0.75x)";
+      } else {
+        normBtn.className = "flex-1 py-1 text-xs font-bold rounded-lg transition-all bg-white text-teal-700 shadow-sm";
+        slowBtn.className = "flex-1 py-1 text-xs font-bold rounded-lg transition-all text-slate-600";
+        document.getElementById('shadow-speed-indicator').innerText = "Normal (1.0x)";
+      }
+    }
+
+    // AUDIO CONVERSION: PCM16 RAW TO WAV UTILITY
+    function writeString(view, offset, string) {
+      for (let i = 0; i < string.length; i++) {
+        view.setUint8(offset + i, string.charCodeAt(i));
+      }
+    }
+
+    function convertPcmToWav(pcmBuffer, sampleRate) {
+      const buffer = new ArrayBuffer(44 + pcmBuffer.byteLength);
+      const view = new DataView(buffer);
+
+      // "RIFF" chunk descriptor
+      writeString(view, 0, 'RIFF');
+      view.setUint32(4, 36 + pcmBuffer.byteLength, true);
+      writeString(view, 8, 'WAVE');
+
+      // "fmt " sub-chunk
+      writeString(view, 12, 'fmt ');
+      view.setUint32(16, 16, true);          
+      view.setUint16(20, 1, true);           
+      view.setUint16(22, 1, true);           
+      view.setUint32(24, sampleRate, true);  
+      view.setUint32(28, sampleRate * 2, true); 
+      view.setUint16(32, 2, true);           
+      view.setUint16(34, 16, true);          
+
+      // "data" sub-chunk
+      writeString(view, 36, 'data');
+      view.setUint32(40, pcmBuffer.byteLength, true);
+
+      const pcmView = new Uint8Array(pcmBuffer);
+      const wavView = new Uint8Array(buffer, 44);
+      wavView.set(pcmView);
+
+      return buffer;
+    }
+
+    // AUDIO ENGINE: Gemini Cloud TTS with robust Browser synthesis fallback
+    async function speakSentence(text) {
+      const useGemini = document.getElementById('use-gemini-tts').checked;
+      const selectedVoice = document.getElementById('tts-voice-select').value;
+
+      // Speak using Gemini Cloud TTS only if Key exists and box is checked
+      if (useGemini && selectedVoice !== 'native' && windowGeminiApiKey) {
+        try {
+          const cleanText = `Say naturally and slow: ${text}`;
+          const promptPayload = {
+            contents: [{ parts: [{ text: cleanText }] }],
+            generationConfig: {
+              responseModalities: ["AUDIO"],
+              speechConfig: {
+                voiceConfig: {
+                  prebuiltVoiceConfig: {
+                    voiceName: selectedVoice
+                  }
+                }
+              }
+            }
+          };
+
+          const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${windowGeminiApiKey}`;
+          
+          let response = null;
+          let delay = 1000;
+          for (let i = 0; i < 3; i++) {
+            try {
+              response = await fetch(endpoint, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(promptPayload)
+              });
+              if (response.ok) break;
+            } catch (e) {
+              // silent catch
+            }
+            await new Promise(resolve => setTimeout(resolve, delay));
+            delay *= 2;
+          }
+
+          if (response && response.ok) {
+            const data = await response.json();
+            const base64Audio = data.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data;
+            const mimeType = data.candidates?.[0]?.content?.parts?.[0]?.inlineData?.mimeType || "audio/L16;rate=24000";
+            
+            if (base64Audio) {
+              let sampleRate = 24000;
+              const rateMatch = mimeType.match(/rate=(\d+)/);
+              if (rateMatch) {
+                sampleRate = parseInt(rateMatch[1], 10);
+              }
+              
+              const rawPcmBuffer = base64ToArrayBuffer(base64Audio);
+              const wavBuffer = convertPcmToWav(rawPcmBuffer, sampleRate);
+              
+              playWavBuffer(wavBuffer);
+              return;
+            }
+          }
+        } catch (error) {
+          // Fail gracefully to browser-native synthesis on network/auth error
+        }
+      }
+
+      // Default: Google's Standard US English local browser voice
+      if (synth) {
+        synth.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'en-US';
+        utterance.rate = state.speechRate;
+        
+        const voices = synth.getVoices();
+        
+        // Prioritize Google's US voice as default offline option
+        let chosenVoice = voices.find(v => v.name.includes("Google US English")) || 
+                          voices.find(v => v.name.includes("Google") && v.lang.startsWith("en")) || 
+                          voices.find(v => v.lang === "en-US") ||
+                          voices.find(v => v.lang.startsWith("en"));
+                          
+        if (chosenVoice) {
+          utterance.voice = chosenVoice;
+        }
+        synth.speak(utterance);
+      }
+    }
+
+    function base64ToArrayBuffer(base64) {
+      const binaryString = window.atob(base64);
+      const len = binaryString.length;
+      const bytes = new Uint8Array(len);
+      for (let i = 0; i < len; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+      }
+      return bytes.buffer;
+    }
+
+    // Play WAV
+    function playWavBuffer(arrayBuffer) {
+      const blob = new Blob([arrayBuffer], { type: 'audio/wav' });
+      const url = URL.createObjectURL(blob);
+      const audio = new Audio(url);
+      audio.playbackRate = state.speechRate;
+      audio.play().catch(e => {
+        // Safe navigation for browser policies
+      });
+    }
+
+    // Target audio helpers
+    function speakTargetAnswer() {
+      if (state.currentPracticePrompt) {
+        speakSentence(state.currentPracticePrompt.answer);
+      }
+    }
+
+    // Speak helper for the correct constructed question
+    function speakCorrectQuestion() {
+      if (state.currentPracticePrompt) {
+        speakSentence(state.currentPracticePrompt.correctQuestion);
+      }
+    }
+
+    // SHADOWING LAB MODULE LOGIC
+    function loadShadowPrompt(index) {
+      if (index >= state.shuffledShadows.length) {
+        index = 0; 
+      }
+      shadowIndex = index;
+      const prompt = state.shuffledShadows[index];
+      
+      document.getElementById('shadow-target-txt').innerText = prompt.text;
+      document.getElementById('shadow-translation').innerText = prompt.translation;
+
+      // Reset voice indicators
+      document.getElementById('heard-transcript').innerText = "Aquí se imprimirá tu voz en tiempo real...";
+      document.getElementById('accuracy-percentage').innerText = "0%";
+      document.getElementById('evaluation-tag').innerText = "Esperando voz... 🔊";
+      document.getElementById('evaluation-tag').className = "mt-4 px-3 py-1 rounded-full text-xs font-bold text-slate-500 bg-slate-100 animate-pulse";
+      document.getElementById('ai-pronunciation-feedback-container').classList.add('hidden');
+      document.getElementById('ai-pronunciation-btn').classList.add('hidden');
+      
+      // Reset SVG circle offset
+      document.getElementById('accuracy-ring').style.strokeDashoffset = '339';
+    }
+
+    function playShadowTargetAudio() {
+      const prompt = state.shuffledShadows[shadowIndex];
+      speakSentence(prompt.text);
+    }
+
+    function loadNextShadowPrompt() {
+      loadShadowPrompt(shadowIndex + 1);
+    }
+
+    // Voice recognition controller for Shadowing feedback
+    function setupAudioRecognition() {
+      if (!shadowRecognition) return;
+
+      shadowRecognition.onstart = () => {
+        state.isRecording = true;
+        document.getElementById('shadow-record-btn').classList.remove('from-teal-500', 'to-indigo-500');
+        document.getElementById('shadow-record-btn').classList.add('from-red-500', 'to-orange-500', 'animate-pulse');
+        document.getElementById('shadow-mic-icon').className = "fa-solid fa-microphone-lines text-3xl";
+        document.getElementById('record-ring').classList.remove('opacity-0', 'scale-100');
+        document.getElementById('record-ring').classList.add('opacity-100', 'scale-125');
+        document.getElementById('speech-wave').classList.remove('opacity-30');
+        document.getElementById('record-status-label').innerText = "Escuchando atentamente... ¡Habla ahora!";
+      };
+
+      shadowRecognition.onend = () => {
+        state.isRecording = false;
+        document.getElementById('shadow-record-btn').classList.add('from-teal-500', 'to-indigo-500');
+        document.getElementById('shadow-record-btn').classList.remove('from-red-500', 'to-orange-500', 'animate-pulse');
+        document.getElementById('shadow-mic-icon').className = "fa-solid fa-microphone text-3xl";
+        document.getElementById('record-ring').classList.remove('opacity-100', 'scale-125');
+        document.getElementById('record-ring').classList.add('opacity-0', 'scale-100');
+        document.getElementById('speech-wave').classList.add('opacity-30');
+        document.getElementById('record-status-label').innerText = "Analizando tu pronunciación...";
+      };
+
+      shadowRecognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        evaluateSpokenSentence(transcript);
+      };
+
+      shadowRecognition.onerror = () => {
+        document.getElementById('record-status-label').innerText = "No se pudo oír con claridad. ¡Prueba la verificación manual abajo!";
+      };
+    }
+
+    function toggleShadowVoiceRecording() {
+      if (!shadowRecognition) {
+        showMicWarning("La grabación de voz no es compatible con este navegador. ¡Intenta usar Google Chrome!");
+        return;
+      }
+      
+      if (state.isRecording) {
+        shadowRecognition.stop();
+      } else {
+        if (state.isDictating && practiceRecognition) {
+          practiceRecognition.stop();
+        }
+        shadowRecognition.start();
+      }
+    }
+
+    // Calculate Similarity using Levenshtein distance
+    function evaluateSpokenSentence(heard) {
+      const target = state.shuffledShadows[shadowIndex].text;
+      
+      document.getElementById('heard-transcript').innerText = heard;
+
+      const cleanTarget = cleanString(target);
+      const cleanHeard = cleanString(heard);
+
+      const distance = levenshteinDistance(cleanTarget, cleanHeard);
+      const maxLength = Math.max(cleanTarget.length, cleanHeard.length);
+      
+      let accuracy = 100;
+      if (maxLength > 0) {
+        accuracy = Math.round(((maxLength - distance) / maxLength) * 100);
+      }
+
+      accuracy = Math.max(0, Math.min(100, accuracy));
+      document.getElementById('accuracy-percentage').innerText = `${accuracy}%`;
+      
+      const offset = 339 - (339 * accuracy) / 100;
+      const ring = document.getElementById('accuracy-ring');
+      ring.style.strokeDashoffset = offset;
+
+      const evalTag = document.getElementById('evaluation-tag');
+      evalTag.classList.remove('animate-pulse');
+      
+      if (accuracy >= 85) {
+        evalTag.innerText = "¡Excelente Pronunciación! 🌟";
+        evalTag.className = "mt-4 px-3 py-1 rounded-full text-xs font-bold text-emerald-700 bg-emerald-100";
+        state.score += 15;
+        updateScoreboard();
+        playSoundEffect('correct');
+      } else if (accuracy >= 60) {
+        evalTag.innerText = "¡Bien! Sigue practicando. 👍";
+        evalTag.className = "mt-4 px-3 py-1 rounded-full text-xs font-bold text-indigo-700 bg-indigo-100";
+      } else {
+        evalTag.innerText = "¡Inténtalo otra vez! 🔄";
+        evalTag.className = "mt-4 px-3 py-1 rounded-full text-xs font-bold text-amber-700 bg-amber-100";
+        playSoundEffect('incorrect');
+      }
+
+      // Show pronunciation advice option button if key is ready
+      if (windowGeminiApiKey) {
+        document.getElementById('ai-pronunciation-btn').classList.remove('hidden');
+      }
+
+      document.getElementById('record-status-label').innerText = "Evaluación terminada. ¡Vuelve a hablar o avanza al siguiente!";
+      syncStateToCloud();
+    }
+
+    function manualScoreUpdate(success) {
+      const evalTag = document.getElementById('evaluation-tag');
+      const percentage = document.getElementById('accuracy-percentage');
+      evalTag.classList.remove('animate-pulse');
+      
+      if (success) {
+        evalTag.innerText = "¡Buen Trabajo (Auto-verificado)! 🎉";
+        evalTag.className = "mt-4 px-3 py-1 rounded-full text-xs font-bold text-teal-700 bg-teal-100";
+        percentage.innerText = "100%";
+        document.getElementById('accuracy-ring').style.strokeDashoffset = '0';
+        state.score += 10;
+        updateScoreboard();
+        playSoundEffect('correct');
+      } else {
+        evalTag.innerText = "¡Sigue practicando! 🔄";
+        evalTag.className = "mt-4 px-3 py-1 rounded-full text-xs font-bold text-orange-700 bg-orange-100";
+        percentage.innerText = "Reintentar";
+        document.getElementById('accuracy-ring').style.strokeDashoffset = '339';
+        playSoundEffect('incorrect');
+      }
+      syncStateToCloud();
+    }
+
+    function levenshteinDistance(a, b) {
+      const matrix = [];
+      for (let i = 0; i <= b.length; i++) {
+        matrix[i] = [i];
+      }
+      for (let j = 0; j <= a.length; j++) {
+        matrix[0][j] = j;
+      }
+      for (let i = 1; i <= b.length; i++) {
+        for (let j = 1; j <= a.length; j++) {
+          if (b.charAt(i - 1) === a.charAt(j - 1)) {
+            matrix[i][j] = matrix[i - 1][j - 1];
+          } else {
+            matrix[i][j] = Math.min(
+              matrix[i - 1][j - 1] + 1,
+              matrix[i][j - 1] + 1,
+              matrix[i - 1][j] + 1
+            );
+          }
+        }
+      }
+      return matrix[b.length][a.length];
+    }
+
+    // MODAL CONTROL
+    function toggleHintModal() {
+      const modal = document.getElementById('hint-modal');
+      modal.classList.toggle('hidden');
+    }
+
+    // ==========================================
+    // GEMINI LLM-POWERED FEATURES CORE INTEGRATION
+    // ==========================================
+
+    // Feature 1: ✨ Generate Dynamic AI Challenge based on Topic
+    function openAiGeneratorModal() {
+      if (!windowGeminiApiKey) {
+        toggleKeyModal();
+        showMicWarning("¡Necesitas agregar tu Gemini API Key primero para activar los módulos de Inteligencia Artificial! 🔑");
+        return;
+      }
+      document.getElementById('ai-topic-input').value = "";
+      document.getElementById('ai-loading-indicator').classList.add('hidden');
+      document.getElementById('ai-generator-modal').classList.remove('hidden');
+    }
+
+    function closeAiGeneratorModal() {
+      document.getElementById('ai-generator-modal').classList.add('hidden');
+    }
+
+    async function generateCustomChallenge() {
+      const topicInput = document.getElementById('ai-topic-input').value.trim();
+      if (!topicInput) {
+        showMicWarning("Por favor escribe un tema de interés para el desafío.");
+        return;
+      }
+
+      const loader = document.getElementById('ai-loading-indicator');
+      loader.classList.remove('hidden');
+
+      try {
+        const systemPrompt = `You are a professional ESL English Teacher. Generate an A1 level Simple Present Question Challenge in English about the topic: "${topicInput}". The output MUST be a valid JSON object matching the requested schema. Ensure the grammatical explanations and translations are written in simple Spanish. The correctQuestion must be the question that matches the target answer. Use Simple Present Tense.`;
+        
+        const payload = {
+          contents: [{ parts: [{ text: systemPrompt }] }],
+          generationConfig: {
+            responseMimeType: "application/json",
+            responseSchema: {
+              type: "OBJECT",
+              properties: {
+                answer: { type: "STRING", description: "A simple A1 level answer in English starting with Yes/No or indicating specific time/place." },
+                correctQuestion: { type: "STRING", description: "The grammatically correct Simple Present question that matches the answer." },
+                clue: { type: "STRING", description: "The helper word or Wh-word the student should start their question with." },
+                translation: { type: "STRING", description: "Perfect, natural Spanish translation of the answer." },
+                explanation: { type: "STRING", description: "Pointers and quick grammar tips explaining the present simple question formula used, written in friendly Spanish." }
+              },
+              required: ["answer", "correctQuestion", "clue", "translation", "explanation"]
+            }
+          }
+        };
+
+        const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${windowGeminiApiKey}`;
+        
+        let response = null;
+        let delay = 1000;
+        
+        // Retry logic with Exponential Backoff
+        for (let i = 0; i < 5; i++) {
+          try {
+            response = await fetch(endpoint, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload)
+            });
+            if (response.ok) break;
+          } catch (e) {
+            // Silently try again
+          }
+          await new Promise(resolve => setTimeout(resolve, delay));
+          delay *= 2;
+        }
+
+        if (!response || !response.ok) {
+          throw new Error("No se pudo conectar con la API de Gemini.");
+        }
+
+        const data = await response.json();
+        const jsonText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+        
+        if (jsonText) {
+          const generatedPrompt = JSON.parse(jsonText);
+          generatedPrompt.id = Date.now();
+          generatedPrompt.isAiGenerated = true;
+
+          // Inject as the active element
+          state.shuffledPrompts.unshift(generatedPrompt);
+          closeAiGeneratorModal();
+          loadPracticePrompt(0);
+          
+          playSoundEffect('correct');
+        } else {
+          throw new Error("Estructura de datos vacía.");
+        }
+
+      } catch (err) {
+        console.error("AI Generation Error:", err);
+        showMicWarning("Gemini no pudo procesar la solicitud. Verifica tu conexión o clave de API.");
+      } finally {
+        loader.classList.add('hidden');
+      }
+    }
+
+    // Feature 2: ✨ Live Interactive Grammar Coach Chat
+    let aiTutorChatHistory = [];
+
+    function askAiGrammarCoach() {
+      if (!windowGeminiApiKey) {
+        toggleKeyModal();
+        showMicWarning("¡Se requiere una clave de API Gemini válida para chatear con el tutor IA! 🔑");
+        return;
+      }
+
+      const panel = document.getElementById('ai-tutor-panel');
+      panel.classList.remove('hidden');
+
+      // Clear previous custom chat and load initial prompt
+      const chatBody = document.getElementById('ai-chat-body');
+      chatBody.innerHTML = `
+        <div class="flex gap-2.5 max-w-[85%] mb-4">
+          <div class="w-8 h-8 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center shrink-0">
+            <i class="fa-solid fa-sparkles text-xs"></i>
+          </div>
+          <div class="bg-white p-3.5 rounded-2xl rounded-tl-none shadow-sm border border-slate-100">
+            <p class="text-xs text-slate-700 leading-relaxed font-semibold">
+              ¡Hola! He analizado este ejercicio con la respuesta: <span class="underline text-indigo-600">"${state.currentPracticePrompt.answer}"</span>.
+            </p>
+            <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+              La pregunta correcta debe ser: <strong class="text-slate-800">"${state.currentPracticePrompt.correctQuestion}"</strong>. ¿Tienes alguna pregunta gramatical sobre esta estructura?
+            </p>
+            <span class="block text-[9px] text-slate-400 mt-1.5">Tutor IA • Ahora</span>
+          </div>
+        </div>
+      `;
+
+      // Set baseline context for LLM Conversational coach
+      aiTutorChatHistory = [
+        {
+          role: "user",
+          parts: [{ text: `Hola, soy un estudiante de nivel A1 de inglés. Estoy resolviendo este ejercicio:
+            - Respuesta que leo: "${state.currentPracticePrompt.answer}"
+            - Pregunta correcta esperada: "${state.currentPracticePrompt.correctQuestion}"
+            - Pista inicial: "${state.currentPracticePrompt.clue}"
+            - Explicación base: "${state.currentPracticePrompt.explanation}"
+            Actúa como mi tutor de inglés A1, sé muy paciente, alegre, explica mis dudas en español de forma muy sencilla y usa ejemplos cortos.` }]
+        },
+        {
+          role: "model",
+          parts: [{ text: `¡Hola! Con mucho gusto. Estoy listo para ayudarte a entender este ejercicio de Presente Simple. ¿Qué te gustaría saber sobre la estructura? Puedes preguntarme con confianza.` }]
+        }
+      ];
+    }
+
+    function closeAiTutorPanel() {
+      document.getElementById('ai-tutor-panel').classList.add('hidden');
+    }
+
+    function handleAiChatKeyPress(event) {
+      if (event.key === 'Enter') {
+        sendAiChatMessage();
+      }
+    }
+
+    async function sendAiChatMessage() {
+      const input = document.getElementById('ai-chat-input');
+      const query = input.value.trim();
+      if (!query) return;
+
+      input.value = "";
+      await executeTutorQuery(query);
+    }
+
+    function sendQuickAiQuery(pillText) {
+      executeTutorQuery(pillText);
+    }
+
+    async function executeTutorQuery(queryText) {
+      const chatBody = document.getElementById('ai-chat-body');
+
+      // Append User message
+      const userMsgHtml = `
+        <div class="flex gap-2.5 max-w-[85%] ml-auto justify-end mb-4">
+          <div class="bg-indigo-600 text-white p-3.5 rounded-2xl rounded-tr-none shadow-sm">
+            <p class="text-xs leading-relaxed font-semibold">${queryText}</p>
+            <span class="block text-[9px] text-indigo-200 mt-1">Tú • Ahora</span>
+          </div>
+        </div>
+      `;
+      chatBody.insertAdjacentHTML('beforeend', userMsgHtml);
+      chatBody.scrollTop = chatBody.scrollHeight;
+
+      // Append AI Loading bubbles
+      const aiLoadingId = `ai-loading-${Date.now()}`;
+      const aiLoadingHtml = `
+        <div id="${aiLoadingId}" class="flex gap-2.5 max-w-[85%] mb-4">
+          <div class="w-8 h-8 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center shrink-0">
+            <i class="fa-solid fa-circle-notch text-xs animate-spin"></i>
+          </div>
+          <div class="bg-white p-3.5 rounded-2xl rounded-tl-none shadow-sm border border-slate-100">
+            <p class="text-xs text-slate-400 italic">Escribiendo explicación...</p>
+          </div>
+        </div>
+      `;
+      chatBody.insertAdjacentHTML('beforeend', aiLoadingHtml);
+      chatBody.scrollTop = chatBody.scrollHeight;
+
+      // Save user query to ongoing LLM context
+      aiTutorChatHistory.push({
+        role: "user",
+        parts: [{ text: queryText }]
+      });
+
+      try {
+        const payload = {
+          contents: aiTutorChatHistory,
+          systemInstruction: {
+            parts: [{ text: "Eres un tutor de inglés de nivel A1 muy paciente y pedagógico. Utiliza el español para responder de forma sumamente sencilla, animando siempre al estudiante." }]
+          }
+        };
+
+        const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${windowGeminiApiKey}`;
+        
+        let response = null;
+        let delay = 1000;
+        for (let i = 0; i < 5; i++) {
+          try {
+            response = await fetch(endpoint, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload)
+            });
+            if (response.ok) break;
+          } catch (e) {
+            // silent retry
+          }
+          await new Promise(resolve => setTimeout(resolve, delay));
+          delay *= 2;
+        }
+
+        // Remove loading state
+        const loadingElement = document.getElementById(aiLoadingId);
+        if (loadingElement) loadingElement.remove();
+
+        if (!response || !response.ok) {
+          throw new Error("No se pudo obtener respuesta del servidor.");
+        }
+
+        const data = await response.json();
+        const responseText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+
+        if (responseText) {
+          // Save model response to ongoing LLM context
+          aiTutorChatHistory.push({
+            role: "model",
+            parts: [{ text: responseText }]
+          });
+
+          // Format output safely (replace newlines with breaks)
+          const formattedResponse = responseText.replace(/\n/g, '<br>');
+
+          // Append to UI
+          const aiResponseHtml = `
+            <div class="flex gap-2.5 max-w-[85%] mb-4">
+              <div class="w-8 h-8 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center shrink-0">
+                <i class="fa-solid fa-sparkles text-xs"></i>
+              </div>
+              <div class="bg-white p-3.5 rounded-2xl rounded-tl-none shadow-sm border border-slate-100">
+                <p class="text-xs text-slate-700 leading-relaxed font-medium">${formattedResponse}</p>
+                <span class="block text-[9px] text-slate-400 mt-1">Tutor IA • Ahora</span>
+              </div>
+            </div>
+          `;
+          chatBody.insertAdjacentHTML('beforeend', aiResponseHtml);
+          chatBody.scrollTop = chatBody.scrollHeight;
+        }
+
+      } catch (err) {
+        console.error("AI Coach Error:", err);
+        const loadingElement = document.getElementById(aiLoadingId);
+        if (loadingElement) loadingElement.remove();
+
+        const aiErrorHtml = `
+          <div class="flex gap-2.5 max-w-[85%] mb-4">
+            <div class="w-8 h-8 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center shrink-0">
+              <i class="fa-solid fa-circle-exclamation text-xs"></i>
+            </div>
+            <div class="bg-white p-3.5 rounded-2xl rounded-tl-none shadow-sm border border-rose-100 text-rose-700">
+              <p class="text-xs font-semibold">Upps, ocurrió un problema de conexión al procesar la tutoría. Comprueba tu API Key de Gemini.</p>
+            </div>
+          </div>
+        `;
+        chatBody.insertAdjacentHTML('beforeend', aiErrorHtml);
+        chatBody.scrollTop = chatBody.scrollHeight;
+      }
+    }
+
+    // New Feature 3: ✨ AI Error Diagnostic Breakdown
+    async function getAiDiagnostic() {
+      if (!windowGeminiApiKey) return;
+
+      const studentInput = document.getElementById('type-input').value.trim();
+      const targetAnswer = state.currentPracticePrompt.answer;
+      const expectedQuestion = state.currentPracticePrompt.correctQuestion;
+
+      const diagnosticCard = document.getElementById('ai-diagnostic-card');
+      const diagnosticText = document.getElementById('ai-diagnostic-text');
+
+      diagnosticCard.classList.remove('hidden');
+      diagnosticText.innerHTML = `<i class="fa-solid fa-spinner animate-spin mr-1.5"></i> Gemini está evaluando los detalles gramaticales de tu error...`;
+
+      try {
+        const promptText = `
+          El estudiante de nivel inicial A1 de inglés escribió: "${studentInput}"
+          La pregunta correcta esperada era: "${expectedQuestion}"
+          La respuesta que se debía formular era sobre: "${targetAnswer}"
+
+          Explica de manera extremadamente corta (máximo 2 oraciones sencillas en español) qué error cometió el alumno en el Presente Simple (ejemplo: olvidó el auxiliar Does, usó el verbo en plural, olvidó el signo de interrogación, etc.) y cómo corregirlo de forma alegre y amigable.
+        `;
+
+        const payload = {
+          contents: [{ parts: [{ text: promptText }] }]
+        };
+
+        const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${windowGeminiApiKey}`;
+
+        let response = null;
+        let delay = 1000;
+        for (let i = 0; i < 4; i++) {
+          try {
+            response = await fetch(endpoint, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload)
+            });
+            if (response.ok) break;
+          } catch (e) {
+            // silent catch
+          }
+          await new Promise(resolve => setTimeout(resolve, delay));
+          delay *= 2;
+        }
+
+        if (response && response.ok) {
+          const data = await response.json();
+          const diagnosis = data.candidates?.[0]?.content?.parts?.[0]?.text;
+          if (diagnosis) {
+            diagnosticText.innerHTML = diagnosis.trim().replace(/\n/g, '<br>');
+          } else {
+            diagnosticText.innerText = "No se pudo generar el diagnóstico en este momento.";
+          }
+        } else {
+          diagnosticText.innerText = "Ocurrió un error al conectar con Gemini para el diagnóstico.";
+        }
+      } catch (err) {
+        console.error("Diagnostic Error:", err);
+        diagnosticText.innerText = "Error al procesar el diagnóstico con Inteligencia Artificial.";
+      }
+    }
+
+    // New Feature 4: ✨ AI Phonetic & Pronunciation Advice
+    async function getAiPronunciationTips() {
+      if (!windowGeminiApiKey) return;
+
+      const targetText = state.shuffledShadows[shadowIndex].text;
+      const heardText = document.getElementById('heard-transcript').innerText;
+
+      const feedbackContainer = document.getElementById('ai-pronunciation-feedback-container');
+      const feedbackText = document.getElementById('ai-pronunciation-text');
+
+      feedbackContainer.classList.remove('hidden');
+      feedbackText.innerHTML = `<i class="fa-solid fa-spinner animate-spin mr-1.5"></i> Gemini está preparando consejos fonéticos personalizados...`;
+
+      try {
+        const promptText = `
+          Oración objetivo de inglés A1 que el estudiante debía imitar (Shadowing): "${targetText}"
+          Lo que el software de reconocimiento de voz entendió del estudiante: "${heardText}"
+
+          Por favor, proporciona 2 consejos rápidos y amigables en español (máximo 45 palabras en total) para ayudar al estudiante a pronunciar mejor. Identifica palabras donde pueda mejorar la vocalización o el ritmo en el Presente Simple. Sé muy alentador.
+        `;
+
+        const payload = {
+          contents: [{ parts: [{ text: promptText }] }]
+        };
+
+        const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${windowGeminiApiKey}`;
+
+        let response = null;
+        let delay = 1000;
+        for (let i = 0; i < 4; i++) {
+          try {
+            response = await fetch(endpoint, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload)
+            });
+            if (response.ok) break;
+          } catch (e) {
+            // silent catch
+          }
+          await new Promise(resolve => setTimeout(resolve, delay));
+          delay *= 2;
+        }
+
+        if (response && response.ok) {
+          const data = await response.json();
+          const tips = data.candidates?.[0]?.content?.parts?.[0]?.text;
+          if (tips) {
+            feedbackText.innerHTML = tips.trim().replace(/\n/g, '<br>');
+          } else {
+            feedbackText.innerText = "No se pudieron obtener consejos en este momento.";
+          }
+        } else {
+          feedbackText.innerText = "Error de red al procesar los consejos fonéticos de Gemini.";
+        }
+      } catch (err) {
+        console.error("Pronunciation Tips Error:", err);
+        feedbackText.innerText = "Ocurrió un problema de comunicación con el motor de IA.";
+      }
+    }
+
+    // Attach modules to window context for seamless HTML trigger access
+    window.switchTab = switchTab;
+    window.toggleAudioSettings = toggleAudioSettings;
+    window.setSpeechRate = setSpeechRate;
+    window.resetPractice = resetPractice;
+    window.toggleHintModal = toggleHintModal;
+    window.toggleTranslation = toggleTranslation;
+    window.speakTargetAnswer = speakTargetAnswer;
+    window.toggleDictation = toggleDictation;
+    window.revealCorrectAnswer = revealCorrectAnswer;
+    window.skipQuestion = skipQuestion;
+    window.checkAnswer = checkAnswer;
+    window.nextQuestion = nextQuestion;
+    window.speakCorrectQuestion = speakCorrectQuestion;
+    window.resetAndReshuffleShadows = resetAndReshuffleShadows;
+    window.playShadowTargetAudio = playShadowTargetAudio;
+    window.toggleShadowVoiceRecording = toggleShadowVoiceRecording;
+    window.manualScoreUpdate = manualScoreUpdate;
+    window.loadNextShadowPrompt = loadNextShadowPrompt;
+    window.saveGeminiApiKey = saveGeminiApiKey;
+    window.removeGeminiApiKey = removeGeminiApiKey;
+    window.toggleKeyVisibility = toggleKeyVisibility;
+    window.toggleKeyModal = toggleKeyModal;
+
+    // AI Context exports
+    window.openAiGeneratorModal = openAiGeneratorModal;
+    window.closeAiGeneratorModal = closeAiGeneratorModal;
+    window.generateCustomChallenge = generateCustomChallenge;
+    window.askAiGrammarCoach = askAiGrammarCoach;
+    window.closeAiTutorPanel = closeAiTutorPanel;
+    window.sendAiChatMessage = sendAiChatMessage;
+    window.handleAiChatKeyPress = handleAiChatKeyPress;
+    window.sendQuickAiQuery = sendQuickAiQuery;
+    window.getAiDiagnostic = getAiDiagnostic;
+    window.getAiPronunciationTips = getAiPronunciationTips;
+  </script>
+</body>
+</html>
